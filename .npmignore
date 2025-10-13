@@ -38,3 +38,18 @@ node_modules/
 
 # Unnecessary files
 index.js
+*.tmp
+.tmp/
+.claude/settings.local.json
+CLAUDE.md
+.github/copilot-instructions.md
+docs/MDD-PREVIEW.md
+examples/business-letter.mdd
+examples/comprehensive-document.mdd
+examples/greek-document.mdd
+examples/invoice.mdd
+MDD Project Analysis.md
+mdd_ecosystem_blueprint.md
+mdd_ecosystem_business.md
+NPM-RELEASE-CHECKLIST.md
+docs/BUSINESS-DOCUMENTS.md
