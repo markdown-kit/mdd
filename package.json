@@ -1,6 +1,6 @@
 {
   "name": "@entro314labs/mdd",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Semantic document layer for AI-to-Office pipeline. Transform markdown into professional PDF/DOCX with preserved document structure.",
   "main": "preview.js",
   "type": "module",
