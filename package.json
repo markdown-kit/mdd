@@ -45,12 +45,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/mdd.git"
+    "url": "https://github.com/entro314-labs/mdd.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/mdd/issues"
+    "url": "https://github.com/entro314-labs/mdd/issues"
   },
-  "homepage": "https://github.com/yourusername/mdd#readme",
+  "homepage": "https://github.com/entro314-labs/mdd#readme",
   "dependencies": {
     "remark": "^15.0.1",
     "remark-frontmatter": "^5.0.0",

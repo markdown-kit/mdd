@@ -10,7 +10,7 @@ MDD is a business-focused markdown extension for creating professional documents
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/mdd.git
+git clone https://github.com/entro314-labs/mdd.git
 cd mdd
 
 # Install dependencies

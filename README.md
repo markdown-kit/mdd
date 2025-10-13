@@ -34,7 +34,7 @@ npm install -g mdd
 npx mdd-preview document.mdd
 
 # Or clone and use locally
-git clone https://github.com/yourusername/mdd.git
+git clone https://github.com/entro314-labs/mdd.git
 cd mdd
 pnpm install
 ```

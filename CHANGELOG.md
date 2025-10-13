@@ -2,7 +2,7 @@
 
 All notable changes to the MDD (Markdown Document) project.
 
-## [0.1.0] - 2025-01-13
+## [0.0.5] - 2025-10-13
 
 ### Added
 
