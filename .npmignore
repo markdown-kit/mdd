@@ -1,43 +1,30 @@
-# Development and testing files
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+
+# Generated files
 examples/*.html
 *.log
-*.tmp
-.tmp/
-*.tgz
 
-# Documentation (planning/internal)
-mdd_ecosystem_blueprint.md
-mdd_ecosystem_business.md
-COMPREHENSIVE-GUIDE.md
+# OS files
+.DS_Store
+Thumbs.db
 
-# Project-specific (not needed in package)
-CLAUDE.md
-.claude/
-
-# Git and GitHub
-.git/
-.github/
-.gitignore
-
-# Editor files
+# Editor directories
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# OS files
-.DS_Store
-Thumbs.db
-
 # Test coverage
 coverage/
 
-# Node modules (already excluded by default, but being explicit)
-node_modules/
+# Build artifacts
+dist/
+build/
 
-# Unnecessary files
-index.js
+# Temporary files
 *.tmp
 .tmp/
 .claude/settings.local.json
