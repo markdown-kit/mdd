@@ -28,7 +28,7 @@ Write once in plain text. Output to HTML, PDF, and DOCX. It's markdown for docum
 
 ```bash
 # Install globally via npm
-npm install -g mdd
+npm install -g @entro314labs/mdd
 
 # Or use with npx (no installation required)
 npx mdd-preview document.mdd
@@ -269,6 +269,52 @@ This architecture is what allows MDD to target other high-fidelity formats like 
 - [ ] Template variables (`{{variable}}`)
 - [ ] Batch processing features
 - [ ] VS Code extension for live preview
+
+## Entro314 Labs Markdown Ecosystem
+
+MDD is part of a comprehensive markdown ecosystem. For complete documentation, see [PROJECT_ECOSYSTEM.md](../PROJECT_ECOSYSTEM.md).
+
+### Companion Projects
+
+#### 📝 [markdownfix](https://github.com/entro314-labs/markdownfix)
+
+Opinionated formatter and linter for developer documentation:
+
+- README files and technical docs
+- Blog posts and GitHub wikis
+- MDX files with React components
+- 40+ comprehensive linting rules
+- CLI tool: `markdownfix format`
+
+**Installation**: `npm install -g @entro314labs/markdownfix`
+
+markdownfix can **optionally format `.mdd` files** by installing MDD as a dependency.
+
+#### 🖥️ [Anasa](https://github.com/entro314-labs/anasa)
+
+Desktop knowledge management application with MDD integration:
+
+- Bidirectional linking and graph visualization
+- TipTap WYSIWYG editor
+- **First GUI editor for MDD format**
+- Create professional business documents inside your knowledge base
+- Live preview and PDF export
+
+**Status**: MDD integration planned ([see integration spec](../anasa/MDD_INTEGRATION_SPEC.md))
+
+### When to Use Which
+
+| Document Type | Use | File Extension | Package |
+|---------------|-----|----------------|---------|
+| README files | markdownfix | `.md` | `@entro314labs/markdownfix` |
+| Technical documentation | markdownfix | `.md` | `@entro314labs/markdownfix` |
+| Blog posts | markdownfix | `.md` / `.mdx` | `@entro314labs/markdownfix` |
+| React component docs | markdownfix | `.mdx` | `@entro314labs/markdownfix` |
+| **Business letters** | **MDD** | **`.mdd`** | **`@entro314labs/mdd`** |
+| **Invoices** | **MDD** | **`.mdd`** | **`@entro314labs/mdd`** |
+| **Proposals** | **MDD** | **`.mdd`** | **`@entro314labs/mdd`** |
+| **Contracts** | **MDD** | **`.mdd`** | **`@entro314labs/mdd`** |
+| Knowledge base + business docs | Anasa + MDD | `.md` + `.mdd` | Desktop app |
 
 ## Contributing
 
