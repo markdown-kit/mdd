@@ -1,0 +1,65 @@
+{
+  "name": "mdd",
+  "version": "0.0.5",
+  "description": "Semantic document layer for AI-to-Office pipeline. Transform markdown into professional PDF/DOCX with preserved document structure.",
+  "main": "preview.js",
+  "type": "module",
+  "bin": {
+    "mdd-preview": "./preview.js"
+  },
+  "scripts": {
+    "preview": "node preview.js",
+    "preview:business-letter": "node preview.js examples/business-letter.mdd",
+    "preview:invoice": "node preview.js examples/invoice.mdd",
+    "preview:greek": "node preview.js examples/greek-document.mdd",
+    "preview:comprehensive": "node preview.js examples/comprehensive-document.mdd",
+    "test": "node test.js"
+  },
+  "keywords": [
+    "markdown",
+    "mdd",
+    "semantic-markdown",
+    "business-documents",
+    "professional-documents",
+    "document-generation",
+    "ai-workflow",
+    "markdown-to-pdf",
+    "markdown-to-docx",
+    "pandoc",
+    "latex",
+    "invoices",
+    "proposals",
+    "contracts",
+    "letters",
+    "pdf",
+    "docx",
+    "document-processing",
+    "document-structure",
+    "remark-plugin",
+    "version-control",
+    "plain-text",
+    "chatgpt",
+    "ai-content"
+  ],
+  "author": "Dominikos Pritis <dominik@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/mdd.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/mdd/issues"
+  },
+  "homepage": "https://github.com/yourusername/mdd#readme",
+  "dependencies": {
+    "remark": "^15.0.1",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-html": "^16.0.1",
+    "to-vfile": "^8.0.0",
+    "unist-util-visit": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

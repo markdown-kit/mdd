@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+
+# Generated files
+examples/*.html
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test coverage
+coverage/
+
+# Build artifacts
+dist/
+build/
+
+# Temporary files
+*.tmp
+.tmp/
+.claude/settings.local.json
+CLAUDE.md
+.github/copilot-instructions.md
+docs/MDD-PREVIEW.md
+examples/business-letter.mdd
+examples/comprehensive-document.mdd
+examples/greek-document.mdd
+examples/invoice.mdd
+MDD Project Analysis.md
+mdd_ecosystem_blueprint.md
+mdd_ecosystem_business.md
+NPM-RELEASE-CHECKLIST.md
+docs/BUSINESS-DOCUMENTS.md
