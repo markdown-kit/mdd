@@ -11,7 +11,7 @@
 ## Philosophy
 
 - **Minimal syntax** - Barely more than standard markdown. If you know markdown, you know 90% of MDD.
-- **Semantic preservation** - Directives capture document *intent* (letterhead, signature), not just *appearance* (bold, centered). This enables high-fidelity multi-format conversion.
+- **Semantic preservation** - Directives capture document _intent_ (letterhead, signature), not just _appearance_ (bold, centered). This enables high-fidelity multi-format conversion.
 - **Multi-format output** - Single source generates HTML (preview), PDF (final), and DOCX (collaborative editing).
 - **AI workflow ready** - Designed for the modern content pipeline where AI generates markdown and businesses need professional documents.
 - **Professional output** - Documents indistinguishable from Word/LaTeX originals, with zero configuration required.
@@ -19,6 +19,7 @@
 ## Document Structure Extensions
 
 ### 1. Document Sections
+
 ```markdown
 ::letterhead
 Organization Name
@@ -51,6 +52,7 @@ Date: ____________________
 ```
 
 ### 2. Semantic Classes
+
 ```markdown
 # Executive Summary {.document-section}
 ## Financial Results {.numbered-section}
@@ -61,6 +63,7 @@ Highlighted information. {.emphasis}
 ```
 
 ### 3. Section Breaks
+
 ```markdown
 Content on page 1.
 
@@ -71,6 +74,7 @@ Content on page 2.
 ```
 
 ### 4. Document Metadata (Minimal)
+
 ```yaml
 ---
 title: "Συγκατοίκηση στην Ελλάδα 2024-2025"
@@ -214,6 +218,7 @@ Questions? Contact us at billing@acmeservices.com | Page {{page}}
 ## Processing Goals
 
 ### Input Processing
+
 - Parse `::directive` blocks into semantic document structure
 - Handle `{.semantic-class}` annotations for styling hints
 - Preserve all standard markdown features (headings, lists, tables, links)
@@ -222,13 +227,16 @@ Questions? Contact us at billing@acmeservices.com | Page {{page}}
 ### Output Targets
 
 **Current:**
+
 - **HTML** - Self-contained preview with print-optimized CSS for browser-based PDF generation
 
 **Planned (architecturally ready via LaTeX intermediate format):**
+
 - **PDF** - Professional layout via pandoc/LaTeX conversion
 - **DOCX** - High-fidelity Word documents preserving editability for collaboration
 
 ### Conversion Quality
+
 - **Semantic preservation**: Directives maintain meaning across formats (letterhead remains letterhead in HTML, PDF, and DOCX)
 - **Professional typography**: Proper heading hierarchy, business document fonts, correct spacing
 - **Business conventions**: Signature lines, page headers/footers, letterheads, contact blocks
@@ -242,11 +250,13 @@ Questions? Contact us at billing@acmeservices.com | Page {{page}}
 MDD uses a sophisticated two-stage process that preserves semantic meaning:
 
 **Stage 1: Markdown → LaTeX Intermediate Format**
+
 - Remark plugins parse `.mdd` files and convert directives to LaTeX-style markers
 - Example: `::letterhead ... ::` becomes `\begin{letterhead}...\end{letterhead}`
-- This preserves *semantic intent*, not just appearance
+- This preserves _semantic intent_, not just appearance
 
 **Stage 2: LaTeX → Output Format**
+
 - HTML renderer converts LaTeX markers to styled `<div>` elements
 - Pandoc (future) converts LaTeX to high-fidelity PDF/DOCX
 - Semantic structure remains intact throughout pipeline
@@ -262,12 +272,14 @@ MDD uses a sophisticated two-stage process that preserves semantic meaning:
 ### Design Constraints
 
 **Keep it simple:**
+
 - No template variables (use external tools for dynamic content)
 - No business logic workflows (MDD is a format, not a CMS)
 - No web-specific features (focus on print/document output)
 - No complex configuration (zero-config styling by design)
 
 **Focus on:**
+
 - Semantic document structure preservation
 - Professional multi-format output (HTML/PDF/DOCX)
 - Clean, human-readable source files

@@ -14,6 +14,8 @@ Write once in plain text. Output to HTML, PDF, and DOCX. It's markdown for docum
 
 - ✅ **AI Workflow Integration**: MDD is the missing link between AI content generation and professional document output. ChatGPT and Claude output markdown—MDD transforms it into boardroom-ready documents with proper letterheads, signatures, and legal formatting in seconds.
 
+- ✅ **Comprehensive Validation**: Built-in document validation catches errors early with detailed error messages. JSON Schema and TypeScript types provide IDE integration, autocomplete, and real-time error detection.
+
 - ✅ **Zero Configuration Styling**: Professional business document styling is built-in. No CSS configuration, no template hunting, no styling decisions. 8.5" × 11" layouts with correct margins, professional typography, and business document conventions work out of the box.
 
 - ✅ **Version Control Friendly**: Plain text source files work seamlessly with Git. Track changes, collaborate with teams, review diffs, and maintain document history—impossible with binary Word formats.
@@ -42,14 +44,19 @@ pnpm install
 ## Quick Start
 
 ```bash
-# Using global installation
+# Preview (generates HTML)
 mdd-preview document.mdd
+
+# Validate document
+mdd-validate document.mdd
 
 # Using npx (no installation)
 npx mdd-preview document.mdd
+npx mdd-validate document.mdd
 
 # Using local clone
 pnpm run preview examples/business-letter.mdd
+pnpm run validate examples/business-letter.mdd
 
 # Open the generated HTML in your browser
 open document.html
@@ -223,7 +230,7 @@ pnpm test
 
 MDD uses a sophisticated two-stage process to ensure your document's meaning is preserved.
 
-1. **Structural Parsing**: The `remark-mdd-document-structure` plugin identifies directives (`::letterhead`) and converts them into an intermediate LaTeX-style representation (`\begin{letterhead}`). This preserves the *semantic intent* of the block, not just its appearance.
+1. **Structural Parsing**: The `remark-mdd-document-structure` plugin identifies directives (`::letterhead`) and converts them into an intermediate LaTeX-style representation (`\begin{letterhead}`). This preserves the _semantic intent_ of the block, not just its appearance.
 2. **HTML Generation**: The `preview.js` script then replaces these semantic markers with styled HTML `<div>` wrappers, applying the print-first CSS to create the final, professional output.
 
 This architecture is what allows MDD to target other high-fidelity formats like DOCX and native PDF in the future.
@@ -238,26 +245,61 @@ This architecture is what allows MDD to target other high-fidelity formats like 
 
 ## MDD vs. Alternatives
 
-| Feature | MDD | Microsoft Word | LaTeX | Google Docs |
-|---------|-----|----------------|-------|-------------|
-| **Plain text source** | ✅ Yes | ❌ Binary format | ✅ Yes | ❌ Cloud only |
-| **Version control (Git)** | ✅ Native | ❌ Not supported | ✅ Native | ❌ Not supported |
-| **Professional PDF output** | ✅ Yes | ✅ Yes | ✅ Yes | ⚠️ Limited |
-| **DOCX output** | ✅ Via pandoc | ✅ Native | ⚠️ Complex | ✅ Export |
-| **Learning curve** | ✅ Minimal (markdown) | ⚠️ Moderate | ❌ Steep | ✅ Easy |
-| **AI workflow integration** | ✅ Native | ❌ Manual copy/paste | ❌ Manual conversion | ❌ Manual copy/paste |
-| **Zero configuration styling** | ✅ Built-in | ❌ Templates needed | ❌ Complex setup | ⚠️ Limited control |
-| **Collaboration (editable)** | ✅ DOCX output | ✅ Native | ❌ Source only | ✅ Native |
-| **Offline-first** | ✅ Yes | ✅ Yes | ✅ Yes | ❌ Online required |
-| **Semantic structure** | ✅ Preserved | ⚠️ Styling only | ✅ Preserved | ⚠️ Styling only |
+| Feature                        | MDD                  | Microsoft Word      | LaTeX               | Google Docs         |
+| ------------------------------ | -------------------- | ------------------- | ------------------- | ------------------- |
+| **Plain text source**          | ✅ Yes                | ❌ Binary format     | ✅ Yes               | ❌ Cloud only        |
+| **Version control (Git)**      | ✅ Native             | ❌ Not supported     | ✅ Native            | ❌ Not supported     |
+| **Professional PDF output**    | ✅ Yes                | ✅ Yes               | ✅ Yes               | ⚠️ Limited          |
+| **DOCX output**                | ✅ Via pandoc         | ✅ Native            | ⚠️ Complex          | ✅ Export            |
+| **Learning curve**             | ✅ Minimal (markdown) | ⚠️ Moderate         | ❌ Steep             | ✅ Easy              |
+| **AI workflow integration**    | ✅ Native             | ❌ Manual copy/paste | ❌ Manual conversion | ❌ Manual copy/paste |
+| **Zero configuration styling** | ✅ Built-in           | ❌ Templates needed  | ❌ Complex setup     | ⚠️ Limited control  |
+| **Collaboration (editable)**   | ✅ DOCX output        | ✅ Native            | ❌ Source only       | ✅ Native            |
+| **Offline-first**              | ✅ Yes                | ✅ Yes               | ✅ Yes               | ❌ Online required   |
+| **Semantic structure**         | ✅ Preserved          | ⚠️ Styling only     | ✅ Preserved         | ⚠️ Styling only     |
 
 **MDD's unique advantage:** Combines the version control benefits of plain text with professional multi-format output (PDF + DOCX), while requiring minimal syntax and zero configuration.
 
+## Validation
+
+MDD includes comprehensive validation to catch errors early and ensure document quality.
+
+```bash
+# Validate a document
+mdd-validate document.mdd
+
+# Strict mode (fail on warnings)
+mdd-validate --strict document.mdd
+
+# JSON output for CI/CD
+mdd-validate --json document.mdd > report.json
+```
+
+**Validation features:**
+
+- ✅ **Frontmatter validation** - Required fields, date formats, document types
+- ✅ **Directive validation** - Missing end markers, empty directives, nesting issues
+- ✅ **Document type requirements** - Type-specific required/recommended elements
+- ✅ **Semantic class validation** - Whitelist of valid CSS classes
+- ✅ **Detailed error messages** - Line numbers, suggestions, error codes
+
+**Example output:**
+
+```
+✗ ERROR [MISSING_REQUIRED_FIELD]
+  Document type "invoice" requires frontmatter field: invoice-number
+  at field "invoice-number"
+  💡 Add "invoice-number: value" to your frontmatter
+```
+
+See [docs/VALIDATION.md](docs/VALIDATION.md) for complete validation documentation.
+
 ## Documentation
 
-- **[SPECIFICATION.md](SPECIFICATION.md)** - The complete MDD syntax specification.
-- **[docs/MDD-PREVIEW.md](docs/MDD-PREVIEW.md)** - A guide to the preview renderer.
-- **[docs/BUSINESS-DOCUMENTS.md](docs/BUSINESS-DOCUMENTS.md)** - Our catalog of over 200 analyzed business document types.
+- **[SPECIFICATION.md](SPECIFICATION.md)** - The complete MDD syntax specification
+- **[docs/VALIDATION.md](docs/VALIDATION.md)** - Comprehensive validation guide with JSON Schema and TypeScript types
+- **[docs/MDD-PREVIEW.md](docs/MDD-PREVIEW.md)** - Guide to the preview renderer
+- **[docs/BUSINESS-DOCUMENTS.md](docs/BUSINESS-DOCUMENTS.md)** - Catalog of 200+ analyzed business document types
 
 ## Roadmap
 
@@ -265,14 +307,18 @@ This architecture is what allows MDD to target other high-fidelity formats like 
 - [x] HTML preview renderer with print-first CSS
 - [x] Business document examples
 - [x] npm package publication & CLI tool
+- [x] Comprehensive validation with JSON Schema
+- [x] TypeScript type definitions
+- [x] CLI validation tool with error reporting
 - [ ] Pandoc integration for native PDF/DOCX output
 - [ ] Template variables (`{{variable}}`)
 - [ ] Batch processing features
-- [ ] VS Code extension for live preview
+- [ ] VS Code extension with live preview and validation
+- [ ] LSP server for IDE integration
 
 ## Entro314 Labs Markdown Ecosystem
 
-MDD is part of a comprehensive markdown ecosystem. For complete documentation, see [PROJECT_ECOSYSTEM.md](../PROJECT_ECOSYSTEM.md).
+MDD is part of a comprehensive markdown ecosystem. For complete documentation, see [PROJECT\_ECOSYSTEM.md](../PROJECT_ECOSYSTEM.md).
 
 ### Companion Projects
 
@@ -304,17 +350,17 @@ Desktop knowledge management application with MDD integration:
 
 ### When to Use Which
 
-| Document Type | Use | File Extension | Package |
-|---------------|-----|----------------|---------|
-| README files | markdownfix | `.md` | `@entro314labs/markdownfix` |
-| Technical documentation | markdownfix | `.md` | `@entro314labs/markdownfix` |
-| Blog posts | markdownfix | `.md` / `.mdx` | `@entro314labs/markdownfix` |
-| React component docs | markdownfix | `.mdx` | `@entro314labs/markdownfix` |
-| **Business letters** | **MDD** | **`.mdd`** | **`@entro314labs/mdd`** |
-| **Invoices** | **MDD** | **`.mdd`** | **`@entro314labs/mdd`** |
-| **Proposals** | **MDD** | **`.mdd`** | **`@entro314labs/mdd`** |
-| **Contracts** | **MDD** | **`.mdd`** | **`@entro314labs/mdd`** |
-| Knowledge base + business docs | Anasa + MDD | `.md` + `.mdd` | Desktop app |
+| Document Type                  | Use         | File Extension | Package                     |
+| ------------------------------ | ----------- | -------------- | --------------------------- |
+| README files                   | markdownfix | `.md`          | `@entro314labs/markdownfix` |
+| Technical documentation        | markdownfix | `.md`          | `@entro314labs/markdownfix` |
+| Blog posts                     | markdownfix | `.md` / `.mdx` | `@entro314labs/markdownfix` |
+| React component docs           | markdownfix | `.mdx`         | `@entro314labs/markdownfix` |
+| **Business letters**           | **MDD**     | **`.mdd`**     | **`@entro314labs/mdd`**     |
+| **Invoices**                   | **MDD**     | **`.mdd`**     | **`@entro314labs/mdd`**     |
+| **Proposals**                  | **MDD**     | **`.mdd`**     | **`@entro314labs/mdd`**     |
+| **Contracts**                  | **MDD**     | **`.mdd`**     | **`@entro314labs/mdd`**     |
+| Knowledge base + business docs | Anasa + MDD | `.md` + `.mdd` | Desktop app                 |
 
 ## Contributing
 

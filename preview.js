@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * MDD Preview Renderer
- * Converts .mdd files to HTML for browser preview
+ * Converts .mdd files to HTML for browser preview with validation
  */
 
 import { readFile, writeFile } from 'node:fs/promises';
@@ -13,8 +13,11 @@ import remarkHtml from 'remark-html';
 import { read } from 'to-vfile';
 
 // Import MDD plugins
-import remarkMddDocumentStructure from './plugins/remark-mdd-document-structure.js';
-import remarkMddTextFormatting from './plugins/remark-mdd-text-formatting.js';
+import remarkMddDocumentStructure from '@entro314labs/remark-mdd/plugins/document-structure';
+import remarkMddTextFormatting from '@entro314labs/remark-mdd/plugins/text-formatting';
+
+// Import validator
+import { validateDocument } from '@entro314labs/remark-mdd/validator';
 
 /**
  * Process MDD file and convert to HTML
@@ -50,9 +53,73 @@ async function processMarkdown(filePath) {
 }
 
 /**
+ * Generate validation report HTML
+ */
+function generateValidationReport(validationResult) {
+  if (!validationResult || (validationResult.errors.length === 0 && validationResult.warnings.length === 0)) {
+    return '';
+  }
+
+  let report = '<div class="validation-report">';
+
+  if (validationResult.errors.length > 0) {
+    report += '<div class="validation-errors">';
+    report += `<h3>⚠️ Validation Errors (${validationResult.errors.length})</h3>`;
+    report += '<ul>';
+    for (const error of validationResult.errors) {
+      report += `<li class="error-item">`;
+      report += `<strong>[${error.code}]</strong> ${error.message}`;
+      if (error.location && Object.keys(error.location).length > 0) {
+        const locParts = [];
+        if (error.location.line) locParts.push(`line ${error.location.line}`);
+        if (error.location.directive) locParts.push(`directive ::${error.location.directive}`);
+        if (error.location.field) locParts.push(`field "${error.location.field}"`);
+        if (locParts.length > 0) {
+          report += ` <em>(${locParts.join(', ')})</em>`;
+        }
+      }
+      if (error.suggestion) {
+        report += `<div class="suggestion">💡 ${error.suggestion}</div>`;
+      }
+      report += '</li>';
+    }
+    report += '</ul>';
+    report += '</div>';
+  }
+
+  if (validationResult.warnings.length > 0) {
+    report += '<div class="validation-warnings">';
+    report += `<h3>⚠️ Validation Warnings (${validationResult.warnings.length})</h3>`;
+    report += '<ul>';
+    for (const warning of validationResult.warnings) {
+      report += `<li class="warning-item">`;
+      report += `<strong>[${warning.code}]</strong> ${warning.message}`;
+      if (warning.location && Object.keys(warning.location).length > 0) {
+        const locParts = [];
+        if (warning.location.line) locParts.push(`line ${warning.location.line}`);
+        if (warning.location.directive) locParts.push(`directive ::${warning.location.directive}`);
+        if (warning.location.field) locParts.push(`field "${warning.location.field}"`);
+        if (locParts.length > 0) {
+          report += ` <em>(${locParts.join(', ')})</em>`;
+        }
+      }
+      if (warning.suggestion) {
+        report += `<div class="suggestion">💡 ${warning.suggestion}</div>`;
+      }
+      report += '</li>';
+    }
+    report += '</ul>';
+    report += '</div>';
+  }
+
+  report += '</div>';
+  return report;
+}
+
+/**
  * Generate complete HTML document
  */
-function generateHtml(content, metadata = {}) {
+function generateHtml(content, metadata = {}, validationResult = null, options = {}) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -314,10 +381,82 @@ function generateHtml(content, metadata = {}) {
       display: block;
       margin-bottom: 0.25rem;
     }
+
+    /* Validation Report Styles */
+    .validation-report {
+      background: #fff3cd;
+      border: 2px solid #ffc107;
+      border-radius: 4px;
+      padding: 1rem;
+      margin: 1rem 0 2rem 0;
+      font-size: 10pt;
+    }
+
+    .validation-errors {
+      margin-bottom: 1rem;
+    }
+
+    .validation-errors h3 {
+      color: #721c24;
+      background: #f8d7da;
+      padding: 0.5rem;
+      margin: 0 -1rem 0.5rem -1rem;
+      font-size: 11pt;
+    }
+
+    .validation-warnings h3 {
+      color: #856404;
+      background: #fff3cd;
+      padding: 0.5rem;
+      margin: 0 -1rem 0.5rem -1rem;
+      font-size: 11pt;
+    }
+
+    .validation-report ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .error-item, .warning-item {
+      background: white;
+      border-left: 4px solid #dc3545;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+    }
+
+    .warning-item {
+      border-left-color: #ffc107;
+    }
+
+    .error-item strong, .warning-item strong {
+      color: #721c24;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 9pt;
+    }
+
+    .warning-item strong {
+      color: #856404;
+    }
+
+    .error-item em, .warning-item em {
+      color: #6c757d;
+      font-size: 9pt;
+    }
+
+    .suggestion {
+      color: #004085;
+      background: #d1ecf1;
+      padding: 0.25rem 0.5rem;
+      margin-top: 0.25rem;
+      border-radius: 3px;
+      font-size: 9pt;
+    }
   </style>
 </head>
 <body>
   <div class="document-container">
+    ${validationResult && (validationResult.errors.length > 0 || validationResult.warnings.length > 0) ? generateValidationReport(validationResult) : ''}
     ${metadata.title || metadata.date || metadata.author ? `
     <div class="metadata">
       <dl>
@@ -361,35 +500,98 @@ function extractMetadata(fileContent) {
 async function main() {
   const args = process.argv.slice(2);
 
-  if (args.length === 0) {
-    console.error('Usage: node preview.js <input.mdd> [output.html]');
+  // Parse options
+  let skipValidation = false;
+  let strict = false;
+  const fileArgs = [];
+
+  for (const arg of args) {
+    if (arg === '--no-validate') {
+      skipValidation = true;
+    } else if (arg === '--strict') {
+      strict = true;
+    } else if (!arg.startsWith('-')) {
+      fileArgs.push(arg);
+    }
+  }
+
+  if (fileArgs.length === 0) {
+    console.error('Usage: node preview.js [OPTIONS] <input.mdd> [output.html]');
+    console.error('');
+    console.error('Options:');
+    console.error('  --no-validate   Skip validation (faster preview)');
+    console.error('  --strict        Treat warnings as errors');
     console.error('');
     console.error('Examples:');
     console.error('  node preview.js document.mdd');
     console.error('  node preview.js document.mdd preview.html');
+    console.error('  node preview.js --strict document.mdd');
     process.exit(1);
   }
 
-  const inputPath = resolve(args[0]);
+  const inputPath = resolve(fileArgs[0]);
   const inputBasename = basename(inputPath, '.mdd');
-  const outputPath = args[1] ? resolve(args[1]) : resolve(dirname(inputPath), `${inputBasename}.html`);
+  const outputPath = fileArgs[1] ? resolve(fileArgs[1]) : resolve(dirname(inputPath), `${inputBasename}.html`);
 
   try {
-    // Read and extract metadata
+    // Read file content
     const fileContent = await readFile(inputPath, 'utf-8');
     const metadata = extractMetadata(fileContent);
+
+    // Validate document
+    let validationResult = null;
+    if (!skipValidation) {
+      console.log(`Validating: ${inputPath}`);
+      validationResult = validateDocument(fileContent, {
+        validateFrontmatterFlag: true,
+        validateDirectivesFlag: true,
+        validateRequirementsFlag: true,
+        validateClassesFlag: true,
+        strict
+      });
+
+      // Display validation summary
+      if (validationResult.errors.length > 0) {
+        console.error(`✗ Validation failed with ${validationResult.errors.length} error(s)`);
+        for (const error of validationResult.errors.slice(0, 3)) {
+          console.error(`  - [${error.code}] ${error.message}`);
+        }
+        if (validationResult.errors.length > 3) {
+          console.error(`  ... and ${validationResult.errors.length - 3} more error(s)`);
+        }
+        console.error('');
+      }
+
+      if (validationResult.warnings.length > 0) {
+        console.warn(`⚠ ${validationResult.warnings.length} warning(s) found`);
+        if (strict) {
+          console.error('Strict mode: treating warnings as errors');
+          process.exit(2);
+        }
+      }
+
+      if (validationResult.errors.length === 0 && validationResult.warnings.length === 0) {
+        console.log('✓ Validation passed');
+      }
+    }
 
     // Process markdown
     console.log(`Processing: ${inputPath}`);
     const htmlContent = await processMarkdown(inputPath);
 
-    // Generate complete HTML document
-    const fullHtml = generateHtml(htmlContent, metadata);
+    // Generate complete HTML document with validation report
+    const fullHtml = generateHtml(htmlContent, metadata, validationResult, { strict });
 
     // Write output
     await writeFile(outputPath, fullHtml, 'utf-8');
     console.log(`✓ Preview generated: ${outputPath}`);
     console.log(`  Open in browser: file://${outputPath}`);
+
+    // Exit with error code if validation failed but preview was still generated
+    if (validationResult && validationResult.errors.length > 0) {
+      console.error('\nWarning: Preview generated despite validation errors');
+      process.exit(1);
+    }
   } catch (error) {
     console.error('Error:', error.message);
     process.exit(1);

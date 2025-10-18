@@ -47,7 +47,7 @@ MDD's core innovation is semantic structure preservation across formats.
 **Processing**: Two-stage conversion (Markdown → LaTeX markers → Output format)
 **Output**: HTML (browser preview), PDF (final distribution), DOCX (collaborative editing)
 
-**The Innovation**: Unlike traditional markdown processors that style text, MDD preserves document *intent*. A `::letterhead` directive maintains its semantic meaning whether converted to HTML, PDF, or DOCX—enabling consistent professional output across all formats.
+**The Innovation**: Unlike traditional markdown processors that style text, MDD preserves document _intent_. A `::letterhead` directive maintains its semantic meaning whether converted to HTML, PDF, or DOCX—enabling consistent professional output across all formats.
 
 ### Processing Pipeline
 
@@ -67,7 +67,8 @@ Input: .mdd file
 Output: HTML with LaTeX-style markup
 ```
 
-**Post-processing** (in preview.js):
+**Post-processing** (in preview\.js):
+
 - Convert `\begin{letterhead}...\end{letterhead}` → `<div class="letterhead">...</div>`
 - Wrap in complete HTML document with professional business CSS
 - Write `.html` file to same directory as input
@@ -104,6 +105,7 @@ mdd/
 **Purpose**: Handle document structure directives specific to business documents.
 
 **Parses**:
+
 - `::letterhead` ... `::` - Company header information
 - `::header` ... `::` - Page headers (repeated on each page)
 - `::footer` ... `::` - Page footers (repeated on each page)
@@ -124,6 +126,7 @@ mdd/
 **Purpose**: Professional typography and cross-referencing for business documents.
 
 **Handles**:
+
 - Superscripts: `text^super^` → `<sup>super</sup>`
 - Subscripts: `text~sub~` → `<sub>sub</sub>`
 - Internal references: `@section-1` → auto-linked section
@@ -201,6 +204,7 @@ Cross-reference: See @table-1 and @figure-3 for details.
 ```
 
 **Rendering**:
+
 - `text^super^` → text<sup>super</sup>
 - `text~sub~` → text<sub>sub</sub>
 - `@section-X` → hyperlinked reference with "Section X" text
@@ -219,7 +223,7 @@ Important legal text. {.legal-notice}
 ### Design Principles
 
 1. **Minimal syntax**: Barely more than standard markdown—if you know markdown, you know 90% of MDD
-2. **Semantic preservation**: Capture document *intent* (letterhead, signature), not just *appearance* (bold, centered)
+2. **Semantic preservation**: Capture document _intent_ (letterhead, signature), not just _appearance_ (bold, centered)
 3. **Multi-format output**: Single source → HTML (preview) + PDF (final) + DOCX (collaboration)
 4. **AI workflow integration**: Designed for modern pipeline where AI generates markdown and businesses need professional documents
 5. **Human-readable source**: Plain text files compatible with version control (Git)
@@ -260,6 +264,7 @@ Modern content creation workflows have a critical gap:
 **Scenario**: Legal firm drafting client contract with AI assistance
 
 **Traditional workflow (20-30 minutes):**
+
 1. AI generates contract text in markdown
 2. Copy/paste into Microsoft Word
 3. Manually add firm letterhead
@@ -273,6 +278,7 @@ Modern content creation workflows have a critical gap:
 **MDD workflow (< 2 minutes):**
 
 1. AI generates contract text → save as `.mdd`
+
 2. Add semantic directives:
 
    ```markdown
@@ -289,7 +295,9 @@ Modern content creation workflows have a critical gap:
    ```
 
 3. Run: `mdd-preview contract.mdd`
+
 4. Print to PDF or convert to DOCX via pandoc
+
 5. Professional document ready for client
 
 **Time saved**: 18-28 minutes per document
@@ -344,11 +352,13 @@ When modifying text formatting (superscripts, subscripts, references):
 **Problem**: MDD directives show as plain text
 
 **Causes**:
+
 - File doesn't have `.mdd` extension
 - Missing end marker (`::` on its own line)
 - Blank lines inside directive block (splits it into multiple paragraphs)
 
 **Solutions**:
+
 - Ensure file ends in `.mdd`
 - Check all directives have closing `::` marker
 - Remove blank lines inside directive blocks
@@ -358,10 +368,12 @@ When modifying text formatting (superscripts, subscripts, references):
 **Problem**: Directive content is empty or incomplete
 
 **Causes**:
+
 - End marker in wrong place
 - Multiple directive markers without proper closure
 
 **Solutions**:
+
 - Ensure each `::directive` has exactly one matching `::`
 - Don't nest directives (not supported)
 - Review `examples/business-letter.mdd` for correct patterns
@@ -371,10 +383,12 @@ When modifying text formatting (superscripts, subscripts, references):
 **Problem**: Preview command succeeds but no HTML file created
 
 **Causes**:
+
 - Write permissions issue
 - Invalid file path
 
 **Solutions**:
+
 - Check console output for error messages
 - Verify you have write permissions in the directory
 - Use absolute paths if relative paths fail
@@ -392,15 +406,15 @@ While MDD and markdownfix are separate projects, they share some concepts:
 
 ### Different
 
-| Feature | markdownfix | MDD |
-|---------|-------------|-----|
-| **Purpose** | Web content, developer docs | Business documents |
-| **File types** | `.md`, `.mdx` | `.mdd` only |
-| **Configuration** | `.remarkrc.js` | Hardcoded in `preview.js` |
-| **Linting** | Yes (40+ rules) | No |
-| **Auto-fixing** | Yes | No |
-| **Output** | Formatted markdown | HTML preview → PDF/DOCX |
-| **MDX support** | Yes | No |
+| Feature           | markdownfix                 | MDD                       |
+| ----------------- | --------------------------- | ------------------------- |
+| **Purpose**       | Web content, developer docs | Business documents        |
+| **File types**    | `.md`, `.mdx`               | `.mdd` only               |
+| **Configuration** | `.remarkrc.js`              | Hardcoded in `preview.js` |
+| **Linting**       | Yes (40+ rules)             | No                        |
+| **Auto-fixing**   | Yes                         | No                        |
+| **Output**        | Formatted markdown          | HTML preview → PDF/DOCX   |
+| **MDX support**   | Yes                         | No                        |
 
 ### When to Use Which
 
@@ -422,6 +436,7 @@ While MDD and markdownfix are separate projects, they share some concepts:
 Current status: Core syntax working, HTML preview functional
 
 **Next priorities**:
+
 1. Pandoc integration for PDF/DOCX conversion
 2. Template variables (`{{variable}}`)
 3. CLI tool for batch processing
@@ -460,15 +475,15 @@ Current status: Core syntax working, HTML preview functional
 
 ## Key Files Reference
 
-| File | Purpose |
-|------|---------|
-| `preview.js` | Main entry point, HTML generator |
-| `plugins/remark-mdd-document-structure.js` | Directive processing |
-| `plugins/remark-mdd-text-formatting.js` | Typography and references |
-| `SPECIFICATION.md` | Complete MDD syntax spec |
-| `README.md` | User-facing guide |
-| `CLAUDE.md` | AI assistant context |
-| `examples/*.mdd` | Working examples |
+| File                                       | Purpose                          |
+| ------------------------------------------ | -------------------------------- |
+| `preview.js`                               | Main entry point, HTML generator |
+| `plugins/remark-mdd-document-structure.js` | Directive processing             |
+| `plugins/remark-mdd-text-formatting.js`    | Typography and references        |
+| `SPECIFICATION.md`                         | Complete MDD syntax spec         |
+| `README.md`                                | User-facing guide                |
+| `CLAUDE.md`                                | AI assistant context             |
+| `examples/*.mdd`                           | Working examples                 |
 
 ## Quick Troubleshooting Checklist
 
@@ -486,6 +501,6 @@ Current status: Core syntax working, HTML preview functional
 - **Examples**: See `examples/` directory
 - **Preview Guide**: See `docs/MDD-PREVIEW.md`
 - **Business Document Types**: See `docs/BUSINESS-DOCUMENTS.md`
-- **Remark Documentation**: https://github.com/remarkjs/remark
-- **Unified Documentation**: https://unifiedjs.com/
-- **Pandoc Manual**: https://pandoc.org/MANUAL.html
+- **Remark Documentation**: <https://github.com/remarkjs/remark>
+- **Unified Documentation**: <https://unifiedjs.com/>
+- **Pandoc Manual**: <https://pandoc.org/MANUAL.html>

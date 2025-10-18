@@ -65,7 +65,7 @@ When adding new inline formatting (like `^super^` or `~sub~`):
 
 - **SPECIFICATION.md**: Complete MDD syntax reference
 - **README.md**: User-facing quick start guide
-- **docs/MDD-PREVIEW.md**: Preview renderer technical details
+- **docs/MDD-PREVIEW\.md**: Preview renderer technical details
 - **docs/BUSINESS-DOCUMENTS.md**: Document type catalog
 
 All documentation should be clear, concise, and example-driven.
@@ -73,6 +73,7 @@ All documentation should be clear, concise, and example-driven.
 ### Adding Examples
 
 Create new `.mdd` files in `examples/` demonstrating:
+
 - Real business document use cases
 - Proper directive usage
 - Text formatting features
@@ -100,6 +101,7 @@ open examples/your-file.html
 ```
 
 Manual testing checklist:
+
 - [ ] Preview generates HTML without errors
 - [ ] Directives render correctly in browser
 - [ ] Print preview (Cmd/Ctrl+P) looks professional
@@ -109,6 +111,7 @@ Manual testing checklist:
 ## Design Principles
 
 ### DO ✅
+
 - Keep syntax minimal and intuitive
 - Focus on print/PDF output quality
 - Prioritize business document use cases
@@ -117,6 +120,7 @@ Manual testing checklist:
 - Add comprehensive documentation
 
 ### DON'T ❌
+
 - Add template variables or business logic
 - Create web-specific HTML features
 - Break backward compatibility
@@ -148,6 +152,7 @@ feat: Add invoice total calculation directive
 ```
 
 Use prefixes:
+
 - `feat:` - New feature
 - `fix:` - Bug fix
 - `docs:` - Documentation only
@@ -161,7 +166,7 @@ Use prefixes:
 - **Bug reports**: Open an issue with reproduction steps
 - **Feature requests**: Open an issue describing the use case
 - **Questions**: Start a discussion in GitHub Discussions
-- **Security issues**: Email dominik@example.com directly
+- **Security issues**: Email <idominikos@outlook.com> directly
 
 ## License
 
