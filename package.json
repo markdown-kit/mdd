@@ -63,7 +63,7 @@
   },
   "homepage": "https://github.com/entro314-labs/mdd#readme",
   "dependencies": {
-    "@entro314labs/remark-mdd": "^0.0.10",
+    "@entro314labs/remark-mdd": "^0.0.15",
     "remark": "^15.0.1",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
