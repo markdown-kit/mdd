@@ -63,7 +63,7 @@
   },
   "homepage": "https://github.com/markdown-kit/mdd#readme",
   "dependencies": {
-    "@markdownkit/remark-mdd": "workspace:../remark-mdd",
+    "@markdownkit/remark-mdd": "^0.0.20",
     "remark": "^15.0.1",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
