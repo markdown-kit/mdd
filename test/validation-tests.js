@@ -6,7 +6,7 @@
  * @version 0.1.0
  */
 
-import { validateDocument, extractFrontmatter, extractDirectives } from '@entro314labs/remark-mdd/validator';
+import { validateDocument, extractFrontmatter, extractDirectives } from '@markdownkit/remark-mdd/validator';
 
 // Test counters
 let totalTests = 0;

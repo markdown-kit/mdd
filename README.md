@@ -30,7 +30,7 @@ Write once in plain text. Output to HTML, PDF, and DOCX. It's markdown for docum
 
 ```bash
 # Install globally via npm
-npm install -g @entro314labs/mdd
+npm install -g @markdownkit/mdd
 
 # Or use with npx (no installation required)
 npx mdd-preview document.mdd
@@ -145,9 +145,9 @@ Website: www.company.com
 ::
 
 ::signature-block
-Signature: ____________________
+Signature: **\*\*\*\***\_\_\_\_**\*\*\*\***
 Name: [Print name]
-Date: ____________________
+Date: **\*\*\*\***\_\_\_\_**\*\*\*\***
 ::
 
 ::page-break
@@ -245,18 +245,18 @@ This architecture is what allows MDD to target other high-fidelity formats like 
 
 ## MDD vs. Alternatives
 
-| Feature                        | MDD                  | Microsoft Word      | LaTeX               | Google Docs         |
-| ------------------------------ | -------------------- | ------------------- | ------------------- | ------------------- |
+| Feature                        | MDD                   | Microsoft Word       | LaTeX                | Google Docs          |
+| ------------------------------ | --------------------- | -------------------- | -------------------- | -------------------- |
 | **Plain text source**          | ✅ Yes                | ❌ Binary format     | ✅ Yes               | ❌ Cloud only        |
 | **Version control (Git)**      | ✅ Native             | ❌ Not supported     | ✅ Native            | ❌ Not supported     |
-| **Professional PDF output**    | ✅ Yes                | ✅ Yes               | ✅ Yes               | ⚠️ Limited          |
-| **DOCX output**                | ✅ Via pandoc         | ✅ Native            | ⚠️ Complex          | ✅ Export            |
-| **Learning curve**             | ✅ Minimal (markdown) | ⚠️ Moderate         | ❌ Steep             | ✅ Easy              |
+| **Professional PDF output**    | ✅ Yes                | ✅ Yes               | ✅ Yes               | ⚠️ Limited           |
+| **DOCX output**                | ✅ Via pandoc         | ✅ Native            | ⚠️ Complex           | ✅ Export            |
+| **Learning curve**             | ✅ Minimal (markdown) | ⚠️ Moderate          | ❌ Steep             | ✅ Easy              |
 | **AI workflow integration**    | ✅ Native             | ❌ Manual copy/paste | ❌ Manual conversion | ❌ Manual copy/paste |
-| **Zero configuration styling** | ✅ Built-in           | ❌ Templates needed  | ❌ Complex setup     | ⚠️ Limited control  |
+| **Zero configuration styling** | ✅ Built-in           | ❌ Templates needed  | ❌ Complex setup     | ⚠️ Limited control   |
 | **Collaboration (editable)**   | ✅ DOCX output        | ✅ Native            | ❌ Source only       | ✅ Native            |
 | **Offline-first**              | ✅ Yes                | ✅ Yes               | ✅ Yes               | ❌ Online required   |
-| **Semantic structure**         | ✅ Preserved          | ⚠️ Styling only     | ✅ Preserved         | ⚠️ Styling only     |
+| **Semantic structure**         | ✅ Preserved          | ⚠️ Styling only      | ✅ Preserved         | ⚠️ Styling only      |
 
 **MDD's unique advantage:** Combines the version control benefits of plain text with professional multi-format output (PDF + DOCX), while requiring minimal syntax and zero configuration.
 
@@ -318,11 +318,11 @@ See [docs/VALIDATION.md](docs/VALIDATION.md) for complete validation documentati
 
 ## Entro314 Labs Markdown Ecosystem
 
-MDD is part of a comprehensive markdown ecosystem. For complete documentation, see [PROJECT\_ECOSYSTEM.md](../PROJECT_ECOSYSTEM.md).
+MDD is part of a comprehensive markdown ecosystem. For complete documentation, see [PROJECT_ECOSYSTEM.md](../PROJECT_ECOSYSTEM.md).
 
 ### Companion Projects
 
-#### 📝 [markdownfix](https://github.com/entro314-labs/markdownfix)
+#### 📝 [markdownkit](https://github.com/entro314-labs/markdownkit)
 
 Opinionated formatter and linter for developer documentation:
 
@@ -330,11 +330,11 @@ Opinionated formatter and linter for developer documentation:
 - Blog posts and GitHub wikis
 - MDX files with React components
 - 40+ comprehensive linting rules
-- CLI tool: `markdownfix format`
+- CLI tool: `markdownkit format`
 
-**Installation**: `npm install -g @entro314labs/markdownfix`
+**Installation**: `npm install -g @markdownkit/markdownkit`
 
-markdownfix can **optionally format `.mdd` files** by installing MDD as a dependency.
+markdownkit can **optionally format `.mdd` files** by installing MDD as a dependency.
 
 #### 🖥️ [Anasa](https://github.com/entro314-labs/anasa)
 
@@ -350,17 +350,17 @@ Desktop knowledge management application with MDD integration:
 
 ### When to Use Which
 
-| Document Type                  | Use         | File Extension | Package                     |
-| ------------------------------ | ----------- | -------------- | --------------------------- |
-| README files                   | markdownfix | `.md`          | `@entro314labs/markdownfix` |
-| Technical documentation        | markdownfix | `.md`          | `@entro314labs/markdownfix` |
-| Blog posts                     | markdownfix | `.md` / `.mdx` | `@entro314labs/markdownfix` |
-| React component docs           | markdownfix | `.mdx`         | `@entro314labs/markdownfix` |
-| **Business letters**           | **MDD**     | **`.mdd`**     | **`@entro314labs/mdd`**     |
-| **Invoices**                   | **MDD**     | **`.mdd`**     | **`@entro314labs/mdd`**     |
-| **Proposals**                  | **MDD**     | **`.mdd`**     | **`@entro314labs/mdd`**     |
-| **Contracts**                  | **MDD**     | **`.mdd`**     | **`@entro314labs/mdd`**     |
-| Knowledge base + business docs | Anasa + MDD | `.md` + `.mdd` | Desktop app                 |
+| Document Type                  | Use         | File Extension | Package                    |
+| ------------------------------ | ----------- | -------------- | -------------------------- |
+| README files                   | markdownkit | `.md`          | `@markdownkit/markdownkit` |
+| Technical documentation        | markdownkit | `.md`          | `@markdownkit/markdownkit` |
+| Blog posts                     | markdownkit | `.md` / `.mdx` | `@markdownkit/markdownkit` |
+| React component docs           | markdownkit | `.mdx`         | `@markdownkit/markdownkit` |
+| **Business letters**           | **MDD**     | **`.mdd`**     | **`@markdownkit/mdd`**     |
+| **Invoices**                   | **MDD**     | **`.mdd`**     | **`@markdownkit/mdd`**     |
+| **Proposals**                  | **MDD**     | **`.mdd`**     | **`@markdownkit/mdd`**     |
+| **Contracts**                  | **MDD**     | **`.mdd`**     | **`@markdownkit/mdd`**     |
+| Knowledge base + business docs | Anasa + MDD | `.md` + `.mdd` | Desktop app                |
 
 ## Contributing
 

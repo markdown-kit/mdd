@@ -126,7 +126,7 @@ Manual testing checklist:
 - Break backward compatibility
 - Add dependencies unnecessarily
 - Make directives complex or nested
-- Implement features for developer docs (that's markdownfix)
+- Implement features for developer docs (that's markdownkit)
 
 ## Submitting Changes
 
@@ -174,8 +174,8 @@ By contributing to MDD, you agree that your contributions will be licensed under
 
 ## Related Projects
 
-- **[markdownfix](../markdownfix/)**: Markdown formatter for developer documentation
-- Use markdownfix for `.md`/`.mdx` files, MDD for `.mdd` business documents
+- **[markdownkit](../markdownkit/)**: Markdown formatter for developer documentation
+- Use markdownkit for `.md`/`.mdx` files, MDD for `.mdd` business documents
 
 ## Thank You!
 

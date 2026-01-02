@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { validateDocument } from '@entro314labs/remark-mdd/validator';
+import { validateDocument } from '@markdownkit/remark-mdd/validator';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

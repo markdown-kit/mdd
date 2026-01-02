@@ -13,11 +13,11 @@ import remarkHtml from 'remark-html';
 import { read } from 'to-vfile';
 
 // Import MDD plugins
-import remarkMddDocumentStructure from '@entro314labs/remark-mdd/plugins/document-structure';
-import remarkMddTextFormatting from '@entro314labs/remark-mdd/plugins/text-formatting';
+import remarkMddDocumentStructure from '@markdownkit/remark-mdd/plugins/document-structure';
+import remarkMddTextFormatting from '@markdownkit/remark-mdd/plugins/text-formatting';
 
 // Import validator
-import { validateDocument } from '@entro314labs/remark-mdd/validator';
+import { validateDocument } from '@markdownkit/remark-mdd/validator';
 
 /**
  * Process MDD file and convert to HTML
