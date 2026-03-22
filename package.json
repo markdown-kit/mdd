@@ -1,12 +1,57 @@
 {
   "name": "@markdownkit/mdd",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "description": "Semantic document layer for AI-to-Office pipeline. Transform markdown into professional PDF/DOCX with preserved document structure.",
-  "main": "preview.js",
-  "type": "module",
+  "keywords": [
+    "ai-content",
+    "ai-workflow",
+    "business-documents",
+    "chatgpt",
+    "cli-tool",
+    "contracts",
+    "document-generation",
+    "document-processing",
+    "document-structure",
+    "document-validation",
+    "docx",
+    "invoices",
+    "json-schema",
+    "latex",
+    "letters",
+    "markdown",
+    "markdown-to-docx",
+    "markdown-to-pdf",
+    "mdd",
+    "pandoc",
+    "pdf",
+    "plain-text",
+    "professional-documents",
+    "proposals",
+    "remark-plugin",
+    "schema-validation",
+    "semantic-markdown",
+    "typescript",
+    "validator",
+    "version-control"
+  ],
+  "homepage": "https://github.com/markdown-kit/mdd#readme",
+  "bugs": {
+    "url": "https://github.com/markdown-kit/mdd/issues"
+  },
+  "license": "MIT",
+  "author": "Dominikos Pritis <idominikos@outlook.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/markdown-kit/mdd.git"
+  },
   "bin": {
     "mdd-preview": "./preview.js",
     "mdd-validate": "./mdd-validate.js"
+  },
+  "type": "module",
+  "main": "preview.js",
+  "exports": {
+    "./preview": "./lib/preview-core.js"
   },
   "scripts": {
     "preview": "node preview.js",
@@ -18,57 +63,29 @@
     "validate:all": "node mdd-validate.js examples/*.mdd",
     "validate:strict": "node mdd-validate.js --strict",
     "test": "node test.js",
-    "test:validation": "node test/validation-tests.js"
+    "test:validation": "node test/validation-tests.js",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
+    "lint": "oxlint .",
+    "lint:ci": "oxlint --deny-warnings .",
+    "lint:fix": "oxlint --fix .",
+    "lint:fix-unsafe": "oxlint --import-plugin node-plugin --type-aware --type-check --vitest-plugin --fix --fix-suggestions --fix-dangerously .",
+    "check:fix-suggestions": "oxlint --import-plugin node-plugin --type-aware --type-check --vitest-plugin --fix --fix-suggestions . && oxfmt --write .",
+    "check": "pnpm run format:check && pnpm run lint:ci",
+    "check:full": "pnpm run check && pnpm run test"
   },
-  "keywords": [
-    "markdown",
-    "mdd",
-    "semantic-markdown",
-    "business-documents",
-    "professional-documents",
-    "document-generation",
-    "document-validation",
-    "schema-validation",
-    "json-schema",
-    "typescript",
-    "ai-workflow",
-    "markdown-to-pdf",
-    "markdown-to-docx",
-    "pandoc",
-    "latex",
-    "invoices",
-    "proposals",
-    "contracts",
-    "letters",
-    "pdf",
-    "docx",
-    "document-processing",
-    "document-structure",
-    "remark-plugin",
-    "version-control",
-    "plain-text",
-    "chatgpt",
-    "ai-content",
-    "cli-tool",
-    "validator"
-  ],
-  "author": "Dominikos Pritis <idominikos@outlook.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/markdown-kit/mdd.git"
-  },
-  "bugs": {
-    "url": "https://github.com/markdown-kit/mdd/issues"
-  },
-  "homepage": "https://github.com/markdown-kit/mdd#readme",
   "dependencies": {
-    "@markdownkit/remark-mdd": "^1.0.0",
+    "@markdownkit/remark-mdd": "^2.1.0",
     "remark": "^15.0.1",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
     "remark-html": "^16.0.1",
     "to-vfile": "^8.0.0"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.41.0",
+    "oxlint": "^1.56.0",
+    "oxlint-tsgolint": "^0.17.1"
   },
   "engines": {
     "node": ">=22.x"

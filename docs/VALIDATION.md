@@ -55,7 +55,7 @@ node preview.js --strict examples/invoice.mdd
 ### Programmatic usage
 
 ```javascript
-import { validateDocument } from './lib/validator.js';
+import { validateDocument } from '@markdownkit/remark-mdd/validator';
 
 const content = `---
 title: My Document
@@ -225,6 +225,7 @@ node preview.js examples/invoice.mdd
 ```
 
 **Output HTML includes:**
+
 - Color-coded error/warning boxes
 - Error codes and messages
 - Line numbers and locations
@@ -253,6 +254,7 @@ node preview.js --strict examples/invoice.mdd
 #### Required Fields
 
 All documents MUST have:
+
 - `title` (non-empty string, max 200 characters)
 - `document-type` (valid enum value)
 
@@ -329,40 +331,47 @@ Each document type has specific required and recommended elements.
 #### Invoice Requirements
 
 **Required:**
+
 - Frontmatter: `title`, `date`, `document-type`, `invoice-number`
 - Directives: `::letterhead`, `::header`
 
 **Recommended:**
+
 - Frontmatter: `author`, `recipient`, `payment-terms`, `due-date`, `total-amount`, `purchase-order`
 - Directives: `::footer`, `::contact-info`
 
 #### Contract/Agreement Requirements
 
 **Required:**
+
 - Frontmatter: `title`, `date`, `document-type`, `parties`, `effective-date`
 - Directives: `::letterhead`, `::signature-block`
 
 **Recommended:**
+
 - Frontmatter: `jurisdiction`, `expiration-date`, `reference-number`
 - Directives: `::header`, `::footer`
 
 #### Business Letter Requirements
 
 **Required:**
+
 - Frontmatter: `title`, `date`, `document-type`
 - Directives: `::letterhead`, `::signature-block`
 
 **Recommended:**
+
 - Frontmatter: `author`, `recipient`, `subject`
 - Directives: `::contact-info`
 
-See [schema/document-type-requirements.json](../schema/document-type-requirements.json) for complete requirements.
+See `@markdownkit/remark-mdd/schema/requirements` for complete requirements.
 
 ### Semantic Class Validation
 
 Only whitelisted CSS classes are allowed in `{.class-name}` annotations.
 
 **Valid classes:**
+
 ```
 invoice-title, contract-title, legal-notice, numbered-section,
 long-paragraph, legal-clause, numbered-item, document-section,
@@ -383,8 +392,8 @@ MDD provides comprehensive JSON Schema for validation and tooling.
 
 ### Schema Files
 
-- [schema/mdd-document.schema.json](../schema/mdd-document.schema.json) - Main document schema
-- [schema/document-type-requirements.json](../schema/document-type-requirements.json) - Per-type requirements
+- `@markdownkit/remark-mdd/schema` - Main document schema (from npm)
+- `@markdownkit/remark-mdd/schema/requirements` - Per-type requirements (from npm)
 
 ### Using the Schema
 
@@ -395,7 +404,7 @@ Add to `.vscode/settings.json`:
 ```json
 {
   "yaml.schemas": {
-    "./schema/mdd-document.schema.json#/definitions/frontmatter": "*.mdd"
+    "node_modules/@markdownkit/remark-mdd/schema/mdd-document.schema.json#/definitions/frontmatter": "*.mdd"
   }
 }
 ```
@@ -404,7 +413,7 @@ Add to `.vscode/settings.json`:
 
 ```javascript
 import Ajv from 'ajv';
-import schema from './schema/mdd-document.schema.json' assert { type: 'json' };
+import schema from '@markdownkit/remark-mdd/schema' assert { type: 'json' };
 
 const ajv = new Ajv();
 const validate = ajv.compile(schema.definitions.frontmatter);
@@ -434,7 +443,7 @@ import type {
   DirectiveType,
   SemanticClass,
   DocumentType
-} from './types/mdd.d.ts';
+} from '@markdownkit/remark-mdd/types';
 
 const frontmatter: MDDFrontmatter = {
   title: 'My Document',
@@ -459,7 +468,7 @@ function processDocument(doc: MDDDocument): ValidationResult {
 
 ### Available Types
 
-See [types/mdd.d.ts](../types/mdd.d.ts) for complete type definitions:
+See [@markdownkit/remark-mdd types](https://www.npmjs.com/package/@markdownkit/remark-mdd) for complete type definitions:
 
 - `MDDFrontmatter` - Frontmatter metadata structure
 - `MDDDocument` - Complete parsed document
@@ -474,48 +483,48 @@ See [types/mdd.d.ts](../types/mdd.d.ts) for complete type definitions:
 
 ### Frontmatter Errors
 
-| Code | Description | Severity |
-|------|-------------|----------|
-| `MISSING_FRONTMATTER` | Document has no YAML frontmatter | Error |
-| `MISSING_REQUIRED_FIELD` | Required field missing from frontmatter | Error |
-| `INVALID_DATE_FORMAT` | Date not in YYYY-MM-DD format | Error |
-| `INVALID_DOCUMENT_TYPE` | Document type not in enum | Error |
-| `INVALID_VERSION_FORMAT` | Version not in X.Y or X.Y.Z format | Error |
-| `INVALID_STATUS` | Status not in allowed values | Error |
-| `INVALID_LANGUAGE_CODE` | Language code not ISO 639-1 | Error |
-| `INVALID_CURRENCY_FORMAT` | Currency not in CCC #,###.## format | Error |
+| Code                      | Description                             | Severity |
+| ------------------------- | --------------------------------------- | -------- |
+| `MISSING_FRONTMATTER`     | Document has no YAML frontmatter        | Error    |
+| `MISSING_REQUIRED_FIELD`  | Required field missing from frontmatter | Error    |
+| `INVALID_DATE_FORMAT`     | Date not in YYYY-MM-DD format           | Error    |
+| `INVALID_DOCUMENT_TYPE`   | Document type not in enum               | Error    |
+| `INVALID_VERSION_FORMAT`  | Version not in X.Y or X.Y.Z format      | Error    |
+| `INVALID_STATUS`          | Status not in allowed values            | Error    |
+| `INVALID_LANGUAGE_CODE`   | Language code not ISO 639-1             | Error    |
+| `INVALID_CURRENCY_FORMAT` | Currency not in CCC #,###.## format     | Error    |
 
 ### Directive Errors
 
-| Code | Description | Severity |
-|------|-------------|----------|
-| `MISSING_END_MARKER` | Directive missing `::` end marker | Error |
-| `EMPTY_DIRECTIVE` | Directive has no content | Warning |
-| `INVALID_DIRECTIVE_NESTING` | Directive nested inside another | Error |
-| `DUPLICATE_DIRECTIVE` | Directive appears more than allowed | Warning |
-| `MISSING_REQUIRED_DIRECTIVE` | Required directive for document type missing | Error |
-| `ORPHANED_END_MARKER` | End marker `::` without matching start | Error |
+| Code                         | Description                                  | Severity |
+| ---------------------------- | -------------------------------------------- | -------- |
+| `MISSING_END_MARKER`         | Directive missing `::` end marker            | Error    |
+| `EMPTY_DIRECTIVE`            | Directive has no content                     | Warning  |
+| `INVALID_DIRECTIVE_NESTING`  | Directive nested inside another              | Error    |
+| `DUPLICATE_DIRECTIVE`        | Directive appears more than allowed          | Warning  |
+| `MISSING_REQUIRED_DIRECTIVE` | Required directive for document type missing | Error    |
+| `ORPHANED_END_MARKER`        | End marker `::` without matching start       | Error    |
 
 ### Text Formatting Errors
 
-| Code | Description | Severity |
-|------|-------------|----------|
-| `INVALID_REFERENCE` | Internal reference `@section-1` target missing | Warning |
-| `OVERLAPPING_FORMATTING` | Formatting patterns overlap | Warning |
-| `MALFORMED_PATTERN` | Text formatting syntax error | Warning |
+| Code                     | Description                                    | Severity |
+| ------------------------ | ---------------------------------------------- | -------- |
+| `INVALID_REFERENCE`      | Internal reference `@section-1` target missing | Warning  |
+| `OVERLAPPING_FORMATTING` | Formatting patterns overlap                    | Warning  |
+| `MALFORMED_PATTERN`      | Text formatting syntax error                   | Warning  |
 
 ### Semantic Class Errors
 
-| Code | Description | Severity |
-|------|-------------|----------|
-| `INVALID_SEMANTIC_CLASS` | Class syntax error | Warning |
-| `UNKNOWN_SEMANTIC_CLASS` | Class not in whitelist | Warning |
+| Code                     | Description            | Severity |
+| ------------------------ | ---------------------- | -------- |
+| `INVALID_SEMANTIC_CLASS` | Class syntax error     | Warning  |
+| `UNKNOWN_SEMANTIC_CLASS` | Class not in whitelist | Warning  |
 
 ### Document Structure Errors
 
-| Code | Description | Severity |
-|------|-------------|----------|
-| `INVALID_DIRECTIVE_ORDER` | Directives in wrong order | Warning |
+| Code                      | Description               | Severity |
+| ------------------------- | ------------------------- | -------- |
+| `INVALID_DIRECTIVE_ORDER` | Directives in wrong order | Warning  |
 
 ## CI/CD Integration
 
@@ -632,7 +641,7 @@ npm run validate:strict
 Extend validation for project-specific needs:
 
 ```javascript
-import { validateDocument } from './lib/validator.js';
+import { validateDocument } from '@markdownkit/remark-mdd/validator';
 
 function validateProjectRequirements(content, frontmatter) {
   const errors = [];
@@ -668,11 +677,13 @@ node mdd-validate.js --json docs/*.mdd > reports/$(date +%Y-%m-%d).json
 #### "Invalid date format"
 
 **Problem:** Date includes time or timezone
+
 ```yaml
 date: 2024-12-15T10:00:00Z  # ✗ Wrong
 ```
 
 **Solution:** Use ISO 8601 date only
+
 ```yaml
 date: 2024-12-15  # ✓ Correct
 ```
@@ -680,6 +691,7 @@ date: 2024-12-15  # ✓ Correct
 #### "Missing end marker"
 
 **Problem:** Directive not closed
+
 ```markdown
 ::letterhead
 Content
@@ -687,6 +699,7 @@ Content
 ```
 
 **Solution:** Add end marker
+
 ```markdown
 ::letterhead
 Content
@@ -696,11 +709,13 @@ Content
 #### "Unknown semantic class"
 
 **Problem:** Typo or custom class
+
 ```markdown
 # Title {.invioce-title}  <!-- ✗ Typo -->
 ```
 
 **Solution:** Fix typo or use valid class
+
 ```markdown
 # Title {.invoice-title}  <!-- ✓ Correct -->
 ```
@@ -716,7 +731,8 @@ DEBUG=mdd:* node mdd-validate.js document.mdd
 ---
 
 For more information:
+
 - [Main README](../README.md)
 - [MDD Specification](../SPECIFICATION.md)
-- [JSON Schema](../schema/mdd-document.schema.json)
-- [TypeScript Types](../types/mdd.d.ts)
+- [JSON Schema](https://www.npmjs.com/package/@markdownkit/remark-mdd) (`@markdownkit/remark-mdd/schema`)
+- [TypeScript Types](https://www.npmjs.com/package/@markdownkit/remark-mdd) (`@markdownkit/remark-mdd/types`)

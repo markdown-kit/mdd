@@ -7,12 +7,12 @@ All notable changes to the MDD (Markdown Document) project.
 ### Added
 
 - **Comprehensive Validation System**
-  - JSON Schema for MDD documents ([schema/mdd-document.schema.json](schema/mdd-document.schema.json))
-  - Document type requirements schema ([schema/document-type-requirements.json](schema/document-type-requirements.json))
-  - TypeScript type definitions ([types/mdd.d.ts](types/mdd.d.ts))
+  - JSON Schema for MDD documents (via `@markdownkit/remark-mdd/schema`)
+  - Document type requirements schema (via `@markdownkit/remark-mdd/schema/requirements`)
+  - TypeScript type definitions (via `@markdownkit/remark-mdd/types`)
   - Standalone CLI validation tool (`mdd-validate`)
-  - Validation library ([lib/validator.js](lib/validator.js))
-  - Plugin validation utilities ([lib/plugin-validator.js](lib/plugin-validator.js))
+  - Validation library (via `@markdownkit/remark-mdd/validator`)
+  - Plugin validation utilities (via `@markdownkit/remark-mdd/plugin-validator`)
 
 - **Validation Features**
   - Frontmatter schema validation (required fields, date formats, document types)

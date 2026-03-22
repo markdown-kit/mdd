@@ -82,14 +82,14 @@ mdd/
 │   ├── invoice.mdd
 │   ├── greek-document.mdd
 │   └── comprehensive-document.mdd
-├── plugins/                           # Remark plugins
-│   ├── remark-mdd-document-structure.js
-│   ├── remark-mdd-text-formatting.js
-│   └── remark-mdx-conditional.js      # Unused (kept for reference)
 ├── docs/                              # Documentation
 │   ├── BUSINESS-DOCUMENTS.md
 │   └── MDD-PREVIEW.md
+├── test/                              # Test suite
+│   └── validation-tests.js
 ├── preview.js                         # HTML preview generator
+├── mdd-validate.js                    # CLI validation tool
+├── index.js                           # Package entry point
 ├── package.json                       # Dependencies and scripts
 ├── SPECIFICATION.md                   # MDD syntax specification
 ├── README.md                          # User-facing guide
@@ -97,6 +97,8 @@ mdd/
 ├── CHANGELOG.md                       # Version history
 └── COMPREHENSIVE-GUIDE.md             # This file
 ```
+
+> **Note:** Plugins, schemas, types, and validation logic are provided by `@markdownkit/remark-mdd` (npm).
 
 ## Custom MDD Plugins
 
@@ -475,15 +477,15 @@ Current status: Core syntax working, HTML preview functional
 
 ## Key Files Reference
 
-| File                                       | Purpose                          |
-| ------------------------------------------ | -------------------------------- |
-| `preview.js`                               | Main entry point, HTML generator |
-| `plugins/remark-mdd-document-structure.js` | Directive processing             |
-| `plugins/remark-mdd-text-formatting.js`    | Typography and references        |
-| `SPECIFICATION.md`                         | Complete MDD syntax spec         |
-| `README.md`                                | User-facing guide                |
-| `CLAUDE.md`                                | AI assistant context             |
-| `examples/*.mdd`                           | Working examples                 |
+| File                                       | Purpose                              |
+| ------------------------------------------ | ------------------------------------ |
+| `preview.js`                               | Main entry point, HTML generator     |
+| `mdd-validate.js`                          | CLI validation tool                  |
+| `@markdownkit/remark-mdd` (npm)            | Plugins, schemas, types, validation  |
+| `SPECIFICATION.md`                         | Complete MDD syntax spec             |
+| `README.md`                                | User-facing guide                    |
+| `CLAUDE.md`                                | AI assistant context                 |
+| `examples/*.mdd`                           | Working examples                     |
 
 ## Quick Troubleshooting Checklist
 

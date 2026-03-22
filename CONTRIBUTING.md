@@ -27,13 +27,15 @@ pnpm run preview examples/business-letter.mdd
 
 ```
 mdd/
-├── plugins/           # Remark plugins (core logic)
 ├── examples/          # .mdd example documents
 ├── docs/              # Documentation
+├── test/              # Test suite
 ├── preview.js         # HTML preview generator
-├── test.js            # Test suite
+├── mdd-validate.js    # CLI validation tool
 └── package.json       # Dependencies and scripts
 ```
+
+> **Note:** Plugins, schemas, and types live in the `@markdownkit/remark-mdd` npm package.
 
 ## How to Contribute
 
@@ -41,7 +43,7 @@ mdd/
 
 When adding a new `::directive`:
 
-1. **Add pattern** to `STRUCTURE_PATTERNS` in `plugins/remark-mdd-document-structure.js`
+1. **Add pattern** to `STRUCTURE_PATTERNS` in `@markdownkit/remark-mdd/plugins/document-structure` (in the `remark-mdd` package)
 2. **Implement function** following existing patterns (see `createLetterhead()`, `createSignatureBlock()`)
 3. **Add switch case** to `createDocumentElement()`
 4. **Add LaTeX → HTML** conversion in `preview.js`
@@ -54,7 +56,7 @@ When adding a new `::directive`:
 
 When adding new inline formatting (like `^super^` or `~sub~`):
 
-1. **Add regex pattern** to `TEXT_PATTERNS` in `plugins/remark-mdd-text-formatting.js`
+1. **Add regex pattern** to `TEXT_PATTERNS` in `@markdownkit/remark-mdd/plugins/text-formatting` (in the `remark-mdd` package)
 2. **Add detection logic** in `processTextFormatting()` function
 3. **Add rendering logic** in `createFormattedNode()` switch
 4. **Update SPECIFICATION.md** with syntax example

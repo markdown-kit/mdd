@@ -67,7 +67,7 @@ Highlighted information. {.emphasis}
 ```markdown
 Content on page 1.
 
-::: section-break  
+::: section-break
 :::
 
 Content on page 2.
