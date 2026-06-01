@@ -12,19 +12,19 @@ Write once in plain text. Output to HTML, PDF, and DOCX. It's markdown for docum
 
 - ✅ **Multi-Format Output**: Single source, multiple targets. Write once in `.mdd` format and generate HTML (for web preview), PDF (for final distribution), or DOCX (for collaborative editing). The semantic layer ensures consistent professional quality across all formats.
 
-- ✅ **AI Workflow Integration**: MDD is the missing link between AI content generation and professional document output. ChatGPT and Claude output markdown—MDD transforms it into boardroom-ready documents with proper letterheads, signatures, and legal formatting in seconds.
+- ✅ **AI Workflow Integration**: MDD is the missing link between AI content generation and professional document output. ChatGPT and Claude output markdown - MDD transforms it into boardroom-ready documents with proper letterheads, signatures, and legal formatting in seconds.
 
 - ✅ **Comprehensive Validation**: Built-in document validation catches errors early with detailed error messages. JSON Schema and TypeScript types provide IDE integration, autocomplete, and real-time error detection.
 
 - ✅ **Zero Configuration Styling**: Professional business document styling is built-in. No CSS configuration, no template hunting, no styling decisions. 8.5" × 11" layouts with correct margins, professional typography, and business document conventions work out of the box.
 
-- ✅ **Version Control Friendly**: Plain text source files work seamlessly with Git. Track changes, collaborate with teams, review diffs, and maintain document history—impossible with binary Word formats.
+- ✅ **Version Control Friendly**: Plain text source files work seamlessly with Git. Track changes, collaborate with teams, review diffs, and maintain document history - impossible with binary Word formats.
 
 - ✅ **Zero-Dependency Output**: Generated HTML files are self-contained. Email them, share them, archive them. They render perfectly everywhere with no external dependencies.
 
 - ✅ **Minimalist Syntax**: Barely more than standard markdown. The syntax is intentionally simple and human-readable, empowering anyone to create complex professional documents with plain text.
 
-- ✅ **200+ Document Types Analyzed**: MDD is built on domain expertise—a comprehensive analysis of over 200 business document types across 15+ industries, from invoices and contracts to proposals and legal agreements.
+- ✅ **200+ Document Types Analyzed**: MDD is built on domain expertise - a comprehensive analysis of over 200 business document types across 15+ industries, from invoices and contracts to proposals and legal agreements.
 
 ## Installation
 
@@ -241,7 +241,7 @@ This architecture is what allows MDD to target other high-fidelity formats like 
 - **PDF** - Via browser print (Cmd/Ctrl+P → Save as PDF) or pandoc integration
 - **DOCX** - Via pandoc integration (preserves editability for collaboration)
 
-**Note:** The LaTeX intermediate format means pandoc integration is architecturally ready. DOCX conversion is primarily a matter of configuring the pandoc pipeline—the hard work of semantic preservation is already complete.
+**Note:** The LaTeX intermediate format means pandoc integration is architecturally ready. DOCX conversion is primarily a matter of configuring the pandoc pipeline - the hard work of semantic preservation is already complete.
 
 ## MDD vs. Alternatives
 

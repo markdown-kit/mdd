@@ -8,64 +8,8 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { resolve, dirname, basename } from 'node:path'
 
 import { validateDocument } from '@markdownkit/remark-mdd/validator'
-import { read } from 'to-vfile'
 
-import {
-  processContent,
-  extractMetadata,
-  generateValidationReport,
-  MDD_CSS,
-} from './lib/preview-core.js'
-
-/**
- * Process MDD file (file-path variant for CLI usage)
- */
-async function processMarkdown(filePath) {
-  const file = await read(filePath)
-
-  if (!file.path) {
-    file.path = filePath
-  }
-
-  return processContent(String(file))
-}
-
-/**
- * Generate complete HTML document
- */
-function generateHtml(content, metadata = {}, validationResult = null) {
-  const validationHtml =
-    validationResult && (validationResult.errors.length > 0 || validationResult.warnings.length > 0)
-      ? generateValidationReport(validationResult)
-      : ''
-
-  const metadataHtml =
-    metadata.title || metadata.date || metadata.author
-      ? `<div class="metadata"><dl>
-        ${metadata.title ? `<dt>Title:</dt><dd>${metadata.title}</dd>` : ''}
-        ${metadata.date ? `<dt>Date:</dt><dd>${metadata.date}</dd>` : ''}
-        ${metadata.author ? `<dt>Author:</dt><dd>${metadata.author}</dd>` : ''}
-        ${metadata['document-type'] ? `<dt>Type:</dt><dd>${metadata['document-type']}</dd>` : ''}
-      </dl></div>`
-      : ''
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${metadata.title ?? 'MDD Document Preview'}</title>
-  <style>${MDD_CSS}</style>
-</head>
-<body>
-  <div class="document-container">
-    ${validationHtml}
-    ${metadataHtml}
-    ${content}
-  </div>
-</body>
-</html>`
-}
+import { generateMddHtml } from './lib/preview-core.js'
 
 /**
  * Main execution
@@ -111,13 +55,13 @@ async function main() {
   try {
     // Read file content
     const fileContent = await readFile(inputPath, 'utf-8')
-    const metadata = extractMetadata(fileContent)
 
     // Validate document
     let validationResult = null
     if (!skipValidation) {
       console.log(`Validating: ${inputPath}`)
-      validationResult = validateDocument(fileContent, {
+      const normalizedContent = fileContent.replace(/\r\n/g, '\n')
+      validationResult = validateDocument(normalizedContent, {
         validateFrontmatterFlag: true,
         validateDirectivesFlag: true,
         validateRequirementsFlag: true,
@@ -150,12 +94,11 @@ async function main() {
       }
     }
 
-    // Process markdown
+    // Process markdown into a complete, self-contained HTML document.
+    // generateMddHtml is the single canonical renderer (escaped output,
+    // language-aware) shared with the LSP and programmatic consumers.
     console.log(`Processing: ${inputPath}`)
-    const htmlContent = await processMarkdown(inputPath)
-
-    // Generate complete HTML document with validation report
-    const fullHtml = generateHtml(htmlContent, metadata, validationResult, { strict })
+    const fullHtml = await generateMddHtml(fileContent, { filePath: inputPath })
 
     // Write output
     await writeFile(outputPath, fullHtml, 'utf-8')

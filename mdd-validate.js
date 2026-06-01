@@ -296,9 +296,10 @@ async function validateFile(filePath, options) {
 
     // Read file
     const content = await readFile(filePath, 'utf-8')
+    const normalizedContent = content.replace(/\r\n/g, '\n')
 
     // Validate document
-    const result = validateDocument(content, {
+    const result = validateDocument(normalizedContent, {
       validateFrontmatterFlag: true,
       validateDirectivesFlag: true,
       validateRequirementsFlag: true,

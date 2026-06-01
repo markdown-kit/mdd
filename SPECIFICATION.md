@@ -51,6 +51,8 @@ Date: ____________________
 ::
 ```
 
+Inline self-closing form is also accepted: `::page-break ::`.
+
 ### 2. Semantic Classes
 
 ```markdown
@@ -72,6 +74,8 @@ Content on page 1.
 
 Content on page 2.
 ```
+
+Inline self-closing form is also accepted: `::: section-break :::`.
 
 ### 4. Document Metadata (Minimal)
 
@@ -163,6 +167,7 @@ ACME Consulting Services
 title: "Invoice"
 date: "2024-12-15"
 document-type: "invoice"
+invoice-number: "INV-2024-001"
 ---
 
 ::header
@@ -285,4 +290,4 @@ MDD uses a sophisticated two-stage process that preserves semantic meaning:
 - Clean, human-readable source files
 - High conversion fidelity across formats
 
-This specification prioritizes **semantic preservation** and **professional output** over feature complexity. MDD is infrastructure—a document abstraction layer for the AI age.
+This specification prioritizes **semantic preservation** and **professional output** over feature complexity. MDD is infrastructure - a document abstraction layer for the AI age.

@@ -1,7 +1,7 @@
 {
   "name": "@markdownkit/mdd",
-  "version": "2.1.0",
-  "description": "Semantic document layer for AI-to-Office pipeline. Transform markdown into professional PDF/DOCX with preserved document structure.",
+  "version": "2.2.1",
+  "description": "Semantic document layer for the AI-to-Office pipeline. Transform markdown into professional HTML, DOCX, and PDF with preserved document structure.",
   "keywords": [
     "ai-content",
     "ai-workflow",
@@ -45,13 +45,15 @@
     "url": "https://github.com/markdown-kit/mdd.git"
   },
   "bin": {
+    "mdd-convert": "./convert.js",
     "mdd-preview": "./preview.js",
     "mdd-validate": "./mdd-validate.js"
   },
   "type": "module",
   "main": "preview.js",
   "exports": {
-    "./preview": "./lib/preview-core.js"
+    "./preview": "./lib/preview-core.js",
+    "./convert": "./lib/mdd-convert.js"
   },
   "scripts": {
     "preview": "node preview.js",
@@ -62,7 +64,7 @@
     "validate": "node mdd-validate.js",
     "validate:all": "node mdd-validate.js examples/*.mdd",
     "validate:strict": "node mdd-validate.js --strict",
-    "test": "node test.js",
+    "test": "node test.js && node --test test/**/*.test.mjs",
     "test:validation": "node test/validation-tests.js",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
@@ -75,7 +77,8 @@
     "check:full": "pnpm run check && pnpm run test"
   },
   "dependencies": {
-    "@markdownkit/remark-mdd": "^2.1.0",
+    "@markdownkit/md-docx": "^2.4.0",
+    "@markdownkit/remark-mdd": "^2.2.0",
     "remark": "^15.0.1",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
@@ -83,11 +86,14 @@
     "to-vfile": "^8.0.0"
   },
   "devDependencies": {
-    "oxfmt": "^0.41.0",
-    "oxlint": "^1.56.0",
-    "oxlint-tsgolint": "^0.17.1"
+    "oxfmt": "^0.52.0",
+    "oxlint": "^1.67.0",
+    "oxlint-tsgolint": "^0.23.0"
+  },
+  "optionalDependencies": {
+    "puppeteer": "^25.1.0"
   },
   "engines": {
-    "node": ">=22.x"
+    "node": ">=24.x"
   }
 }
