@@ -10,11 +10,10 @@
  * extension.
  */
 
-import { readFile, writeFile } from 'node:fs/promises'
+import { readFile } from 'node:fs/promises'
 import { basename, dirname, extname, resolve } from 'node:path'
 
-import { convertToDocx, convertToPdf } from './lib/mdd-convert.js'
-import { generateMddHtml } from './lib/preview-core.js'
+import { convertToDocx, convertToHtml, convertToPdf } from './lib/mdd-convert.js'
 
 function parseArgs(argv) {
   const positionals = []
@@ -75,8 +74,7 @@ async function main() {
       await convertToPdf(content, outputPath, { filePath: inputPath })
       console.log(`✓ PDF written: ${outputPath}`)
     } else {
-      const html = await generateMddHtml(content, { filePath: inputPath })
-      await writeFile(outputPath, html, 'utf-8')
+      await convertToHtml(content, outputPath, { filePath: inputPath })
       console.log(`✓ HTML written: ${outputPath}`)
     }
   } catch (err) {
