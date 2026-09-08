@@ -98,7 +98,10 @@ async function main() {
     // generateMddHtml is the single canonical renderer (escaped output,
     // language-aware) shared with the LSP and programmatic consumers.
     console.log(`Processing: ${inputPath}`)
-    const fullHtml = await generateMddHtml(fileContent, { filePath: inputPath })
+    const fullHtml = await generateMddHtml(fileContent, {
+      filePath: inputPath,
+      validate: !skipValidation,
+    })
 
     // Write output
     await writeFile(outputPath, fullHtml, 'utf-8')
