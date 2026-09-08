@@ -11,6 +11,9 @@ All notable changes to the MDD (Markdown Document) project.
 - **DOCX block tokens merged into paragraphs.** `\pagebreak`/`---` emitted directly after a text line became paragraph text or a setext heading; they are now always separated by a blank line.
 - **PDF printed with zero margins** and embedded the preview's validation-report/metadata boxes. `@page { margin: 1in }` plus 1in Puppeteer margins; `mdd-convert` outputs (PDF/HTML) omit the validation report.
 - `mdd-preview --no-validate` now actually skips validation (`generateMddHtml` accepts `validate: false`).
+- **PDF page furniture.** `::header`/`::footer` are printed on every PDF page (Chrome header/footer templates) with `{{page}}` as the live page number, instead of once inline with a literal `{{page}}`.
+- **DOCX typography.** `^sup^` and `~sub~` are carried into Word as real super/subscript runs instead of literal markers.
+- Headings marked `{.invoice-title}` / `{.contract-title}` are no longer auto-numbered ("1 INVOICE"), and `@table-N` / `@figure-N` references now resolve to anchors on tables and images.
 
 ### Removed
 

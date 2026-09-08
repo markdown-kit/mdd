@@ -238,8 +238,8 @@ This architecture is what lets MDD target several high-fidelity formats from one
 ### Output Targets
 
 - **HTML** - `mdd-preview` / `mdd-convert --format html`: self-contained page with print-optimized CSS (1in page margins)
-- **PDF** - `mdd-convert --format pdf`: the same HTML printed by headless Chrome (Puppeteer, optional dependency)
-- **DOCX** - `mdd-convert --format docx`: native Word output via `@markdownkit/md-docx`; `::header`/`::footer` become real page headers/footers (`{{page}}` renders a live page-number field), `::page-break` a real page break, other directives styled blocks
+- **PDF** - `mdd-convert --format pdf`: the same HTML printed by headless Chrome (Puppeteer, optional dependency); `::header`/`::footer` repeat on every page and `{{page}}` becomes the page number
+- **DOCX** - `mdd-convert --format docx`: native Word output via `@markdownkit/md-docx`; `::header`/`::footer` become real page headers/footers (`{{page}}` renders a live page-number field), `::page-break` a real page break, `^sup^`/`~sub~` real super/subscript runs, other directives styled blocks
 
 `mdd-convert` validates first and writes nothing when the document has validation errors.
 

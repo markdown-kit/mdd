@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import test from 'node:test'
 
-import { convertToDocx, convertToHtml, mddToDocxInput } from '../lib/mdd-convert.js'
+import { convertToDocx, convertToHtml, convertToPdf, mddToDocxInput } from '../lib/mdd-convert.js'
 
 const INVALID = '# Invoice\n\nBody only.\n'
 const VALID = `---
@@ -147,6 +147,31 @@ test('::header/::footer become real DOCX page furniture with a live page-number 
     // The page break after a paragraph line is a real page break, not text.
     assert.match(body, /<w:br w:type="page"\/>/u)
     assert.doesNotMatch(body, /\\pagebreak/u)
+    // MDD typography becomes real super/subscript runs.
+    assert.match(body, /<w:vertAlign w:val="subscript"\/>[\s\S]{0,120}<w:t[^>]*>2<\/w:t>/u)
+    assert.match(body, /<w:vertAlign w:val="superscript"\/>[\s\S]{0,120}<w:t[^>]*>nd<\/w:t>/u)
+    assert.doesNotMatch(body, /H~2~O|2\^nd\^|&lt;sub&gt;/u)
+  } finally {
+    await rm(directory, { recursive: true, force: true })
+  }
+})
+
+test('PDF output repeats ::header/::footer on every page with live page numbers', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'mdd-pdf-'))
+  try {
+    const outputPath = join(directory, 'letter.pdf')
+    const longBody = `${LETTER}\n${'Filler paragraph for pagination.\n\n'.repeat(80)}`
+    await convertToPdf(longBody, outputPath, { filePath: 'letter.mdd' })
+    const { execFile } = await import('node:child_process')
+    const { promisify } = await import('node:util')
+    const { stdout } = await promisify(execFile)('pdftotext', ['-layout', outputPath, '-'])
+    const pages = stdout.split('\f').filter((page) => page.trim().length > 0)
+    assert.ok(pages.length >= 2, `expected a multi-page PDF, got ${pages.length}`)
+    pages.forEach((page, index) => {
+      assert.match(page, /Acme \| Proposal/u, `header missing on page ${index + 1}`)
+      assert.match(page, new RegExp(`Page ${index + 1} \\| Confidential`, 'u'))
+    })
+    assert.doesNotMatch(stdout, /\{\{page\}\}/u)
   } finally {
     await rm(directory, { recursive: true, force: true })
   }
