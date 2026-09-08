@@ -156,7 +156,35 @@ test('::header/::footer become real DOCX page furniture with a live page-number 
   }
 })
 
-test('PDF output repeats ::header/::footer on every page with live page numbers', async () => {
+/**
+ * The PDF test needs headless Chrome (optional puppeteer dependency) and
+ * poppler's pdftotext; report why it is skipped instead of failing on machines
+ * without them.
+ */
+async function pdfToolingUnavailableReason() {
+  const { execFile } = await import('node:child_process')
+  const { promisify } = await import('node:util')
+  try {
+    await promisify(execFile)('pdftotext', ['-v'])
+  } catch {
+    return 'pdftotext (poppler) is not installed'
+  }
+  try {
+    const puppeteer = await import('puppeteer')
+    ;(puppeteer.default ?? puppeteer).executablePath()
+  } catch {
+    return 'puppeteer with a Chrome installation is not available'
+  }
+  return null
+}
+
+test('PDF output repeats ::header/::footer on every page with live page numbers', async (t) => {
+  const unavailable = await pdfToolingUnavailableReason()
+  if (unavailable) {
+    t.skip(unavailable)
+    return
+  }
+
   const directory = await mkdtemp(join(tmpdir(), 'mdd-pdf-'))
   try {
     const outputPath = join(directory, 'letter.pdf')
