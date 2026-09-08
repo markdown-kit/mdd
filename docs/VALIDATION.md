@@ -22,7 +22,7 @@ MDD provides comprehensive document validation to catch errors early, ensure doc
 - **Directive structure validation** - End markers, nesting rules, duplicate detection
 - **Document type requirements** - Type-specific required/recommended elements
 - **Semantic class validation** - Whitelist of valid CSS classes
-- **Cross-reference validation** - Broken link detection (planned)
+- **Cross-reference validation** - `@section-N` references are checked against generated heading anchors
 
 ## Quick Start
 

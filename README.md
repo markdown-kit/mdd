@@ -99,7 +99,7 @@ MDD solves a critical gap in modern business workflows:
 1. AI generates markdown → save as .mdd
 2. Add ::letterhead and ::signature-block directives (30 seconds)
 3. Run: mdd-preview document.mdd
-4. Print to PDF or convert to DOCX (via pandoc)
+4. Run: mdd-convert document.mdd --format pdf (or docx)
 5. Professional document ready for distribution
 ```
 
@@ -230,18 +230,18 @@ pnpm test
 
 MDD uses a sophisticated two-stage process to ensure your document's meaning is preserved.
 
-1. **Structural Parsing**: The `remark-mdd-document-structure` plugin identifies directives (`::letterhead`) and converts them into an intermediate LaTeX-style representation (`\begin{letterhead}`). This preserves the _semantic intent_ of the block, not just its appearance.
+1. **Structural Parsing**: The `remark-mdd-document-structure` plugin identifies directives (`::letterhead`) and wraps their content in semantic container nodes (rendered as `<div class="letterhead" data-mdd-directive="letterhead">`). This preserves the _semantic intent_ of the block, not just its appearance.
 2. **HTML Generation**: The `preview.js` script then replaces these semantic markers with styled HTML `<div>` wrappers, applying the print-first CSS to create the final, professional output.
 
-This architecture is what allows MDD to target other high-fidelity formats like DOCX and native PDF in the future.
+This architecture is what lets MDD target several high-fidelity formats from one semantic AST.
 
 ### Output Targets
 
-- **HTML** - Browser preview with print-optimized CSS (current)
-- **PDF** - Via browser print (Cmd/Ctrl+P → Save as PDF) or pandoc integration
-- **DOCX** - Via pandoc integration (preserves editability for collaboration)
+- **HTML** - `mdd-preview` / `mdd-convert --format html`: self-contained page with print-optimized CSS (1in page margins)
+- **PDF** - `mdd-convert --format pdf`: the same HTML printed by headless Chrome (Puppeteer, optional dependency)
+- **DOCX** - `mdd-convert --format docx`: native Word output via `@markdownkit/md-docx`; `::header`/`::footer` become real page headers/footers (`{{page}}` renders a live page-number field), `::page-break` a real page break, other directives styled blocks
 
-**Note:** The LaTeX intermediate format means pandoc integration is architecturally ready. DOCX conversion is primarily a matter of configuring the pandoc pipeline - the hard work of semantic preservation is already complete.
+`mdd-convert` validates first and writes nothing when the document has validation errors.
 
 ## MDD vs. Alternatives
 
@@ -250,7 +250,7 @@ This architecture is what allows MDD to target other high-fidelity formats like 
 | **Plain text source**          | ✅ Yes                | ❌ Binary format     | ✅ Yes               | ❌ Cloud only        |
 | **Version control (Git)**      | ✅ Native             | ❌ Not supported     | ✅ Native            | ❌ Not supported     |
 | **Professional PDF output**    | ✅ Yes                | ✅ Yes               | ✅ Yes               | ⚠️ Limited           |
-| **DOCX output**                | ✅ Via pandoc         | ✅ Native            | ⚠️ Complex           | ✅ Export            |
+| **DOCX output**                | ✅ Native             | ✅ Native            | ⚠️ Complex           | ✅ Export            |
 | **Learning curve**             | ✅ Minimal (markdown) | ⚠️ Moderate          | ❌ Steep             | ✅ Easy              |
 | **AI workflow integration**    | ✅ Native             | ❌ Manual copy/paste | ❌ Manual conversion | ❌ Manual copy/paste |
 | **Zero configuration styling** | ✅ Built-in           | ❌ Templates needed  | ❌ Complex setup     | ⚠️ Limited control   |
@@ -310,7 +310,7 @@ See [docs/VALIDATION.md](docs/VALIDATION.md) for complete validation documentati
 - [x] Comprehensive validation with JSON Schema
 - [x] TypeScript type definitions
 - [x] CLI validation tool with error reporting
-- [ ] Pandoc integration for native PDF/DOCX output
+- [x] Native PDF/DOCX output (`mdd-convert`)
 - [ ] Template variables (`{{variable}}`)
 - [ ] Batch processing features
 - [ ] VS Code extension with live preview and validation

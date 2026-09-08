@@ -231,14 +231,9 @@ Questions? Contact us at billing@acmeservices.com | Page {{page}}
 
 ### Output Targets
 
-**Current:**
-
-- **HTML** - Self-contained preview with print-optimized CSS for browser-based PDF generation
-
-**Planned (architecturally ready via LaTeX intermediate format):**
-
-- **PDF** - Professional layout via pandoc/LaTeX conversion
-- **DOCX** - High-fidelity Word documents preserving editability for collaboration
+- **HTML** - Self-contained preview with print-optimized CSS (`mdd-preview`, `mdd-convert --format html`)
+- **PDF** - The same print-optimized HTML rendered by headless Chrome (`mdd-convert --format pdf`)
+- **DOCX** - Native Word documents via `@markdownkit/md-docx` (`mdd-convert --format docx`); `::header`/`::footer` map to page headers/footers and `{{page}}` in them renders a page-number field
 
 ### Conversion Quality
 
@@ -254,25 +249,24 @@ Questions? Contact us at billing@acmeservices.com | Page {{page}}
 
 MDD uses a sophisticated two-stage process that preserves semantic meaning:
 
-**Stage 1: Markdown → LaTeX Intermediate Format**
+**Stage 1: Markdown → semantic AST**
 
-- Remark plugins parse `.mdd` files and convert directives to LaTeX-style markers
-- Example: `::letterhead ... ::` becomes `\begin{letterhead}...\end{letterhead}`
+- Remark plugins parse `.mdd` files and turn each directive into a semantic container node (rendered as `<div class="letterhead" data-mdd-directive="letterhead">…</div>`) while keeping the Markdown inside it intact
 - This preserves _semantic intent_, not just appearance
 
-**Stage 2: LaTeX → Output Format**
+**Stage 2: semantic AST → Output Format**
 
-- HTML renderer converts LaTeX markers to styled `<div>` elements
-- Pandoc (future) converts LaTeX to high-fidelity PDF/DOCX
-- Semantic structure remains intact throughout pipeline
+- HTML/PDF: the containers are styled by the print-oriented stylesheet
+- DOCX: directives are mapped to Word constructs (page header/footer, page break, styled blocks)
+- Semantic structure remains intact throughout the pipeline
 
 ### Remark Plugin Chain
 
 1. **remark-frontmatter** - Parse YAML metadata (title, date, author)
 2. **remark-gfm** - GitHub Flavored Markdown (tables, strikethrough)
-3. **remark-mdd-document-structure** - Parse `::directive` blocks → LaTeX markers
+3. **remark-mdd-document-structure** - Parse `::directive` blocks → semantic containers
 4. **remark-mdd-text-formatting** - Handle typography (superscripts, subscripts, cross-references)
-5. **remark-html** - Convert to HTML (or export for pandoc processing)
+5. **remark-html** - Convert to HTML
 
 ### Design Constraints
 

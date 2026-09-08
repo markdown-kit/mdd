@@ -4,6 +4,18 @@ All notable changes to the MDD (Markdown Document) project.
 
 ## [Unreleased]
 
+### Fixed
+
+- **Subscripts rendered as strikethrough.** `remark-gfm` parsed `H~2~O` as single-tilde strikethrough before the MDD typography plugin ran; the preview/PDF pipeline now uses `singleTilde: false` so `~x~` is a subscript (example documents regenerated).
+- **DOCX lost `::header`/`::footer`.** They were passed as top-level options that `@markdownkit/md-docx` never reads; they are now real page headers/footers via `template`, and `{{page}}` renders a live page-number field. DOCX no longer adds an unrequested page-number footer.
+- **DOCX block tokens merged into paragraphs.** `\pagebreak`/`---` emitted directly after a text line became paragraph text or a setext heading; they are now always separated by a blank line.
+- **PDF printed with zero margins** and embedded the preview's validation-report/metadata boxes. `@page { margin: 1in }` plus 1in Puppeteer margins; `mdd-convert` outputs (PDF/HTML) omit the validation report.
+- `mdd-preview --no-validate` now actually skips validation (`generateMddHtml` accepts `validate: false`).
+
+### Removed
+
+- Dead LaTeX-marker post-processing in `processContent`; directives are emitted as HTML containers by the plugin.
+
 ### Added
 
 - **Comprehensive Validation System**
@@ -12,7 +24,6 @@ All notable changes to the MDD (Markdown Document) project.
   - TypeScript type definitions (via `@markdownkit/remark-mdd/types`)
   - Standalone CLI validation tool (`mdd-validate`)
   - Validation library (via `@markdownkit/remark-mdd/validator`)
-  - Plugin validation utilities (via `@markdownkit/remark-mdd/plugin-validator`)
 
 - **Validation Features**
   - Frontmatter schema validation (required fields, date formats, document types)
