@@ -501,6 +501,7 @@ See [@markdownkit/remark-mdd types](https://www.npmjs.com/package/@markdownkit/r
 | `MISSING_END_MARKER`         | Directive missing `::` end marker            | Error    |
 | `EMPTY_DIRECTIVE`            | Directive has no content                     | Warning  |
 | `INVALID_DIRECTIVE_NESTING`  | Directive nested inside another              | Error    |
+| `DIRECTIVE_NOT_BLOCK_START`  | Opener not preceded by a blank line or block | Error    |
 | `DUPLICATE_DIRECTIVE`        | Directive appears more than allowed          | Warning  |
 | `MISSING_REQUIRED_DIRECTIVE` | Required directive for document type missing | Error    |
 | `ORPHANED_END_MARKER`        | End marker `::` without matching start       | Error    |

@@ -7,13 +7,15 @@ All notable changes to the MDD (Markdown Document) project.
 ### Fixed
 
 - **Subscripts rendered as strikethrough.** `remark-gfm` parsed `H~2~O` as single-tilde strikethrough before the MDD typography plugin ran; the preview/PDF pipeline now uses `singleTilde: false` so `~x~` is a subscript (example documents regenerated).
-- **DOCX lost `::header`/`::footer`.** They were passed as top-level options that `@markdownkit/md-docx` never reads; they are now real page headers/footers via `template`, and `{{page}}` renders a live page-number field. DOCX no longer adds an unrequested page-number footer.
+- **DOCX lost `::header`/`::footer`.** They were passed as top-level options that `@markdownkit/md-docx` never reads; they are now real page headers/footers via `template`, and `{{page}}` renders a live page-number field; md-docx's default page numbering still applies to footers without the token.
 - **DOCX block tokens merged into paragraphs.** `\pagebreak`/`---` emitted directly after a text line became paragraph text or a setext heading; they are now always separated by a blank line.
 - **PDF printed with zero margins** and embedded the preview's validation-report/metadata boxes. `@page { margin: 1in }` plus 1in Puppeteer margins; `mdd-convert` outputs (PDF/HTML) omit the validation report.
 - `mdd-preview --no-validate` now actually skips validation (`generateMddHtml` accepts `validate: false`).
 - **PDF page furniture.** `::header`/`::footer` are printed on every PDF page (Chrome header/footer templates) with `{{page}}` as the live page number, instead of once inline with a literal `{{page}}`.
 - **DOCX typography.** `^sup^` and `~sub~` are carried into Word as real super/subscript runs instead of literal markers.
-- Headings marked `{.invoice-title}` / `{.contract-title}` are no longer auto-numbered ("1 INVOICE"), and `@table-N` / `@figure-N` references now resolve to anchors on tables and images.
+- `@table-N` / `@figure-N` references now resolve to anchors on tables and images.
+- **HTML preview showed `{{page}}` literally.** `::header`/`::footer` now render the token as `<span class="page-number">1</span>`.
+- **Validator accepted directive openers the renderer could not see.** An opener directly after prose, a list item, a table row or a previous `::` is now a `DIRECTIVE_NOT_BLOCK_START` error (see SPECIFICATION.md).
 
 ### Removed
 

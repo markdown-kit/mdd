@@ -53,6 +53,10 @@ Date: ____________________
 
 Inline self-closing form is also accepted: `::page-break ::`.
 
+A directive opener must start a new Markdown block: the line above it is blank, a heading, a thematic break, or a fence delimiter. Any other line (prose, a list item, a table row, the `::` that closes the previous directive) makes Markdown fold the opener into that paragraph, so the validator rejects it (`DIRECTIVE_NOT_BLOCK_START`).
+
+`{{page}}` inside `::header`/`::footer` is the current page number: a live field in PDF and DOCX, and `1` (as `<span class="page-number">`) in the single-page HTML preview.
+
 ### 2. Semantic Classes
 
 ```markdown
@@ -233,7 +237,7 @@ Questions? Contact us at billing@acmeservices.com | Page {{page}}
 
 - **HTML** - Self-contained preview with print-optimized CSS (`mdd-preview`, `mdd-convert --format html`)
 - **PDF** - The same print-optimized HTML rendered by headless Chrome (`mdd-convert --format pdf`)
-- **DOCX** - Native Word documents via `@markdownkit/md-docx` (`mdd-convert --format docx`); `::header`/`::footer` map to page headers/footers and `{{page}}` in them renders a page-number field
+- **DOCX** - Native Word documents via `@markdownkit/md-docx` (`mdd-convert --format docx`); `::header`/`::footer` map to page headers/footers, `{{page}}` in them renders a page-number field, and md-docx's default page numbering applies otherwise
 
 ### Conversion Quality
 
@@ -272,7 +276,7 @@ MDD uses a sophisticated two-stage process that preserves semantic meaning:
 
 **Keep it simple:**
 
-- No template variables (use external tools for dynamic content)
+- No template variables beyond the `{{page}}` page-number token in `::header`/`::footer` (use external tools for dynamic content)
 - No business logic workflows (MDD is a format, not a CMS)
 - No web-specific features (focus on print/document output)
 - No complex configuration (zero-config styling by design)

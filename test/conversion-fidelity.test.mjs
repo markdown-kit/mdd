@@ -111,6 +111,7 @@ Phone: 555-0100
 ::
 
 Body paragraph before the break.
+
 ::page-break ::
 
 # Terms
@@ -177,6 +178,32 @@ async function pdfToolingUnavailableReason() {
   }
   return null
 }
+
+test('DOCX keeps md-docx page numbering when ::footer has no {{page}} token', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'mdd-docx-'))
+  try {
+    const withFooter = join(directory, 'footer.docx')
+    await convertToDocx(
+      '---\ntitle: "Memo"\ndocument-type: "memo"\ndate: "2026-01-05"\n---\n\n::footer\nConfidential\n::\n\n# Memo\n\nBody.\n',
+      withFooter,
+    )
+    const footer = await readDocxEntry(withFooter, 'word/footer1.xml')
+    assert.match(footer, /Confidential/u)
+    assert.match(footer, /<w:instrText[^>]*>PAGE<\/w:instrText>/u)
+
+    const noFooter = join(directory, 'plain.docx')
+    await convertToDocx(
+      '---\ntitle: "Memo"\ndocument-type: "memo"\ndate: "2026-01-05"\n---\n\n# Memo\n\nBody.\n',
+      noFooter,
+    )
+    assert.match(
+      await readDocxEntry(noFooter, 'word/footer1.xml'),
+      /<w:instrText[^>]*>PAGE<\/w:instrText>/u,
+    )
+  } finally {
+    await rm(directory, { recursive: true, force: true })
+  }
+})
 
 test('PDF output repeats ::header/::footer on every page with live page numbers', async (t) => {
   const unavailable = await pdfToolingUnavailableReason()

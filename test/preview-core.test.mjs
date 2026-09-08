@@ -55,7 +55,7 @@ void test('processContent preserves headings and rich Markdown inside directives
     { filePath: 'fidelity.mdd' },
   )
 
-  assert.match(html, /<h1 class="invoice-title"[^>]*>Invoice<\/h1>/)
+  assert.match(html, /<h1 class="invoice-title"[^>]*>1 Invoice<\/h1>/)
   assert.match(html, /<strong>Acme<\/strong>/)
   assert.match(html, /<a href="https:\/\/example\.com">site<\/a>/)
   assert.match(html, /<ul>[\s\S]*<li>One<\/li>[\s\S]*<li>Two<\/li>[\s\S]*<\/ul>/)
