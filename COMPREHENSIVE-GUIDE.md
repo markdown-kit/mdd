@@ -15,7 +15,7 @@ MDD was split from the **markdownfix** project to separate concerns:
 
 ## System Requirements
 
-- **Node.js**: Version 22.0.0 or higher
+- **Node.js**: Version 24.19.0 or higher
 - **Package manager**: pnpm (all commands use pnpm)
 
 ## Essential Commands
@@ -493,7 +493,7 @@ Current status: Core syntax working, HTML preview functional
 - [ ] All directives have closing markers?
 - [ ] No blank lines inside directive blocks?
 - [ ] YAML frontmatter properly formatted?
-- [ ] Node.js version ≥ 22.0.0?
+- [ ] Node.js version ≥ 24.19.0?
 - [ ] `pnpm install` completed successfully?
 - [ ] Write permissions in output directory?
 

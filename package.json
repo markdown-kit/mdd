@@ -74,11 +74,12 @@
     "lint:fix-unsafe": "oxlint --import-plugin --node-plugin --type-aware --type-check --vitest-plugin --fix --fix-suggestions --fix-dangerously .",
     "check:fix-suggestions": "oxlint --import-plugin --node-plugin --type-aware --type-check --vitest-plugin --fix --fix-suggestions . && oxfmt --write .",
     "check": "pnpm run format:check && pnpm run lint:ci",
-    "check:full": "pnpm run check && pnpm run test"
+    "check:full": "pnpm run check && pnpm run test",
+    "release": "release-kit"
   },
   "dependencies": {
     "@markdownkit/md-docx": "^2.4.2",
-    "@markdownkit/remark-mdd": "^2.2.2",
+    "@markdownkit/remark-mdd": "^2.2.3",
     "remark": "^15.0.1",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
@@ -86,14 +87,15 @@
     "to-vfile": "^8.0.0"
   },
   "devDependencies": {
-    "oxfmt": "^0.55.0",
-    "oxlint": "^1.70.0",
-    "oxlint-tsgolint": "^0.23.0"
+    "@entro314labs/release-kit": "^1.0.2",
+    "oxfmt": "^0.63.0",
+    "oxlint": "^1.78.0",
+    "oxlint-tsgolint": "^7.0.2001"
   },
   "optionalDependencies": {
-    "puppeteer": "^25.1.0"
+    "puppeteer": "^25.8.0"
   },
   "engines": {
-    "node": ">=24.x"
+    "node": ">=24.19.0"
   }
 }
