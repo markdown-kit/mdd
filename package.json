@@ -80,8 +80,8 @@
     "release": "release-kit"
   },
   "dependencies": {
-    "@markdownkit/md-docx": "^2.4.2",
-    "@markdownkit/remark-mdd": "^2.2.3",
+    "@markdownkit/md-docx": "^4.0.0",
+    "@markdownkit/remark-mdd": "^4.0.0",
     "remark": "^15.0.1",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
@@ -98,6 +98,6 @@
     "puppeteer": "^25.11.0"
   },
   "engines": {
-    "node": ">=24.19.0"
+    "node": ">=24.21.0"
   }
 }
