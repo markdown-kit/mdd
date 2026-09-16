@@ -262,7 +262,7 @@ All documents MUST have:
 
 - `date`, `effective-date`, `expiration-date`, `due-date` - ISO 8601 format (`YYYY-MM-DD`)
 - `version` - Semantic versioning (`X.Y` or `X.Y.Z`)
-- `status` - One of: `draft`, `final`, `approved`, `pending`, `archived`
+- `status` - One of: `draft`, `review`, `pending`, `approved`, `final`, `sent`, `accepted`, `declined`, `archived`
 - `language` - ISO 639-1 code (`en`, `en-US`, `el-GR`)
 - `total-amount` - Currency format (`USD 1,234.56`, `EUR 1.234,56`)
 
