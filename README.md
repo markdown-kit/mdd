@@ -8,7 +8,7 @@ Write once in plain text. Output to HTML, PDF, and DOCX. It's markdown for docum
 
 ## Key Features
 
-- ✅ **Semantic Structure Preservation**: MDD doesn't just style your text; it understands it. Directives like `::letterhead` and `::signature-block` preserve the document's meaning, enabling high-fidelity conversion to PDF, DOCX, and other formats where structure is critical.
+- ✅ **Semantic Structure Preservation**: MDD doesn't just style your text; it understands it. Directives like `:::letterhead` and `:::signature-block` preserve the document's meaning, enabling high-fidelity conversion to PDF, DOCX, and other formats where structure is critical.
 
 - ✅ **Multi-Format Output**: Single source, multiple targets. Write once in `.mdd` format and generate HTML (for web preview), PDF (for final distribution), or DOCX (for collaborative editing). The semantic layer ensures consistent professional quality across all formats.
 
@@ -49,6 +49,9 @@ mdd-preview document.mdd
 
 # Validate document
 mdd-validate document.mdd
+
+# Rewrite an MDD 2 file (::name … ::) into the MDD 3 spelling (:::name … :::)
+mdd-migrate document.mdd
 
 # Using npx (no installation)
 npx mdd-preview document.mdd
@@ -97,7 +100,7 @@ MDD solves a critical gap in modern business workflows:
 
 ```
 1. AI generates markdown → save as .mdd
-2. Add ::letterhead and ::signature-block directives (30 seconds)
+2. Add :::letterhead and :::signature-block directives (30 seconds)
 3. Run: mdd-preview document.mdd
 4. Run: mdd-convert document.mdd --format pdf (or docx)
 5. Professional document ready for distribution
@@ -125,33 +128,32 @@ document-type: "business-proposal"
 ### Semantic Structure Directives
 
 ```markdown
-::letterhead
+:::letterhead
 Company Name
 123 Business Street
 Phone: (555) 123-4567
-::
+:::
 
-::header
+:::header
 Document Title | Page Numbers
-::
+:::
 
-::footer
+:::footer
 Confidential | © 2024 Company Name
-::
+:::
 
-::contact-info
+:::contact-info
 Email: contact@company.com
 Website: www.company.com
-::
+:::
 
-::signature-block
+:::signature-block
 Signature: **\*\*\*\***\_\_\_\_**\*\*\*\***
 Name: [Print name]
 Date: **\*\*\*\***\_\_\_\_**\*\*\*\***
-::
+:::
 
 ::page-break
-::
 ```
 
 ### Standard Markdown
@@ -230,7 +232,7 @@ pnpm test
 
 MDD uses a sophisticated two-stage process to ensure your document's meaning is preserved.
 
-1. **Structural Parsing**: The `remark-mdd-document-structure` plugin identifies directives (`::letterhead`) and wraps their content in semantic container nodes (rendered as `<div class="letterhead" data-mdd-directive="letterhead">`). This preserves the _semantic intent_ of the block, not just its appearance.
+1. **Structural Parsing**: The `remark-mdd-document-structure` plugin identifies directives (`:::letterhead`) and wraps their content in semantic container nodes (rendered as `<div class="letterhead" data-mdd-directive="letterhead">`). This preserves the _semantic intent_ of the block, not just its appearance.
 2. **HTML Generation**: The `preview.js` script then replaces these semantic markers with styled HTML `<div>` wrappers, applying the print-first CSS to create the final, professional output.
 
 This architecture is what lets MDD target several high-fidelity formats from one semantic AST.
@@ -238,8 +240,8 @@ This architecture is what lets MDD target several high-fidelity formats from one
 ### Output Targets
 
 - **HTML** - `mdd-preview` / `mdd-convert --format html`: self-contained page with print-optimized CSS (1in page margins)
-- **PDF** - `mdd-convert --format pdf`: the same HTML printed by headless Chrome (Puppeteer, optional dependency); `::header`/`::footer` repeat on every page and `{{page}}` becomes the page number
-- **DOCX** - `mdd-convert --format docx`: native Word output via `@markdownkit/md-docx`; `::header`/`::footer` become real page headers/footers (`{{page}}` renders a live page-number field; a footer without the token, or no `::footer` at all, gets md-docx's default page number), `::page-break` a real page break, `^sup^`/`~sub~` real super/subscript runs, other directives styled blocks
+- **PDF** - `mdd-convert --format pdf`: the same HTML printed by headless Chrome (Puppeteer, optional dependency); `:::header`/`:::footer` repeat on every page and `{{page}}` becomes the page number
+- **DOCX** - `mdd-convert --format docx`: native Word output via `@markdownkit/md-docx`; `:::header`/`:::footer` become real page headers/footers (`{{page}}` renders a live page-number field; a footer without the token, or no `:::footer` at all, gets md-docx's default page number), `::page-break` a real page break, `^sup^`/`~sub~` real super/subscript runs, other directives styled blocks
 
 `mdd-convert` validates first and writes nothing when the document has validation errors.
 

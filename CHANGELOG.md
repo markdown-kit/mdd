@@ -4,6 +4,19 @@ All notable changes to the MDD (Markdown Document) project.
 
 ## [Unreleased]
 
+### Changed
+
+- **MDD 3 directive syntax.** Block directives are written `:::letterhead` … `:::`, self-closing ones `::page-break` and `::section-break`. The examples, the README and the specification use it. `mdd-convert` reads both spellings.
+
+### Added
+
+- `mdd-migrate <file.mdd> [...]` rewrites MDD 2 documents (`::name` … `::`, `::page-break ::`, `::: section-break :::`) into the MDD 3 spelling in place; `--check` exits 1 when a file would change, `--stdout` prints instead of writing. Also exported as `@markdownkit/mdd/migrate`.
+
+### Deprecated
+
+- The MDD 2 spelling. It is read for this major version with a `LEGACY_DIRECTIVE_SYNTAX` warning from the validator and is removed in the next.
+
+
 ### Fixed
 
 - **Subscripts rendered as strikethrough.** `remark-gfm` parsed `H~2~O` as single-tilde strikethrough before the MDD typography plugin ran; the preview/PDF pipeline now uses `singleTilde: false` so `~x~` is a subscript (example documents regenerated).

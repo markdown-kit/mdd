@@ -46,6 +46,7 @@
   },
   "bin": {
     "mdd-convert": "./convert.js",
+    "mdd-migrate": "./migrate.js",
     "mdd-preview": "./preview.js",
     "mdd-validate": "./mdd-validate.js"
   },
@@ -53,7 +54,8 @@
   "main": "preview.js",
   "exports": {
     "./preview": "./lib/preview-core.js",
-    "./convert": "./lib/mdd-convert.js"
+    "./convert": "./lib/mdd-convert.js",
+    "./migrate": "./lib/migrate.js"
   },
   "scripts": {
     "preview": "node preview.js",
@@ -87,13 +89,13 @@
     "to-vfile": "^8.0.0"
   },
   "devDependencies": {
-    "@entro314labs/release-kit": "^1.0.2",
-    "oxfmt": "^0.63.0",
-    "oxlint": "^1.78.0",
+    "@entro314labs/release-kit": "^2.9.4",
+    "oxfmt": "^0.68.0",
+    "oxlint": "^1.83.0",
     "oxlint-tsgolint": "^7.0.2001"
   },
   "optionalDependencies": {
-    "puppeteer": "^25.8.0"
+    "puppeteer": "^25.11.0"
   },
   "engines": {
     "node": ">=24.19.0"

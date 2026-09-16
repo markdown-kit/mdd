@@ -20,42 +20,45 @@
 
 ### 1. Document Sections
 
+A block directive opens with `:::name` on its own line and closes with `:::` on its own line. A self-closing directive is a single `::name` line. This is the [remark-directive](https://github.com/remarkjs/remark-directive) grammar, so any remark-directive pipeline parses MDD as it is, and a document round-trips through such a pipeline byte for byte.
+
 ```markdown
-::letterhead
+:::letterhead
 Organization Name
 Address Line 1
 Address Line 2
-::
+:::
 
-::header
+:::header
 Company Name | Document Title | Page {{page}}
-::
+:::
 
-::footer
+:::footer
 Confidential | © 2024 Company Name
-::
+:::
 
-::contact-info
+:::contact-info
 Phone: (555) 123-4567
 Email: contact@company.com
 Website: www.company.com
-::
+:::
 
-::signature-block
+:::signature-block
 Signature: ____________________
 Name: [Print name here]
 Date: ____________________
-::
+:::
 
 ::page-break
-::
 ```
 
-Inline self-closing form is also accepted: `::page-break ::`.
+Directives do not nest. A directive opener must start a new Markdown block: the line above it is blank, a heading, a thematic break, or a fence delimiter. Any other line (prose, a list item, a table row, the `:::` that closes the previous directive) makes Markdown fold the opener into that paragraph, so the validator rejects it (`DIRECTIVE_NOT_BLOCK_START`).
 
-A directive opener must start a new Markdown block: the line above it is blank, a heading, a thematic break, or a fence delimiter. Any other line (prose, a list item, a table row, the `::` that closes the previous directive) makes Markdown fold the opener into that paragraph, so the validator rejects it (`DIRECTIVE_NOT_BLOCK_START`).
+`{{page}}` inside `:::header`/`:::footer` is the current page number: a live field in PDF and DOCX, and `1` (as `<span class="page-number">`) in the single-page HTML preview.
 
-`{{page}}` inside `::header`/`::footer` is the current page number: a live field in PDF and DOCX, and `1` (as `<span class="page-number">`) in the single-page HTML preview.
+#### MDD 2 spelling
+
+MDD 2 wrote a block as `::name` … `::`, a page break as `::page-break ::` (or `::page-break` closed by `::`), and a section break as `::: section-break :::` (or closed by `:::`). Tools read that spelling for one more major version and report it as `LEGACY_DIRECTIVE_SYNTAX`; `mdd-migrate` rewrites a file. A `:::name` block is only closed by `:::`, and a `::name` block only by `::`.
 
 ### 2. Semantic Classes
 
@@ -73,13 +76,10 @@ Highlighted information. {.emphasis}
 ```markdown
 Content on page 1.
 
-::: section-break
-:::
+::section-break
 
 Content on page 2.
 ```
-
-Inline self-closing form is also accepted: `::: section-break :::`.
 
 ### 4. Document Metadata (Minimal)
 
@@ -101,19 +101,19 @@ date: "2024-12-15"
 document-type: "business-letter"
 ---
 
-::letterhead
+:::letterhead
 ACME Consulting Services
 123 Business Street
 San Francisco, CA 94102
-::
+:::
 
-::header
+:::header
 ACME Consulting | Proposal
-::
+:::
 
-::footer
+:::footer
 Page {{page}} | Confidential
-::
+:::
 
 December 15, 2024
 
@@ -148,20 +148,20 @@ We propose the following services for your organization:
 
 Please review this proposal and let us know if you have any questions.
 
-::contact-info
+:::contact-info
 John Doe, Senior Consultant
 Phone: (555) 123-4567
 Email: john.doe@acmeconsulting.com
-::
+:::
 
 Sincerely,
 
-::signature-block
+:::signature-block
 ____________________
 John Doe
 Senior Consultant
 ACME Consulting Services
-::
+:::
 ```
 
 ## Example: Invoice
@@ -174,16 +174,16 @@ document-type: "invoice"
 invoice-number: "INV-2024-001"
 ---
 
-::header
+:::header
 ACME Services | Invoice #INV-2024-001
-::
+:::
 
-::letterhead
+:::letterhead
 ACME Services Inc.
 123 Business Street
 San Francisco, CA 94102
 Tax ID: 12-3456789
-::
+:::
 
 # INVOICE {.invoice-title}
 
@@ -211,24 +211,24 @@ Austin, TX 78701
 
 Payment is due within 30 days. Please remit payment to:
 
-::contact-info
+:::contact-info
 Bank: First National Bank
 Account: 123-456-7890
 Routing: 987654321
-::
+:::
 
 **Thank you for your business!**
 
-::footer
+:::footer
 Questions? Contact us at billing@acmeservices.com | Page {{page}}
-::
+:::
 ```
 
 ## Processing Goals
 
 ### Input Processing
 
-- Parse `::directive` blocks into semantic document structure
+- Parse `:::directive` blocks into semantic document structure
 - Handle `{.semantic-class}` annotations for styling hints
 - Preserve all standard markdown features (headings, lists, tables, links)
 - Minimal frontmatter for document metadata (title, date, author, document-type)
@@ -237,7 +237,7 @@ Questions? Contact us at billing@acmeservices.com | Page {{page}}
 
 - **HTML** - Self-contained preview with print-optimized CSS (`mdd-preview`, `mdd-convert --format html`)
 - **PDF** - The same print-optimized HTML rendered by headless Chrome (`mdd-convert --format pdf`)
-- **DOCX** - Native Word documents via `@markdownkit/md-docx` (`mdd-convert --format docx`); `::header`/`::footer` map to page headers/footers, `{{page}}` in them renders a page-number field, and md-docx's default page numbering applies otherwise
+- **DOCX** - Native Word documents via `@markdownkit/md-docx` (`mdd-convert --format docx`); `:::header`/`:::footer` map to page headers/footers, `{{page}}` in them renders a page-number field, and md-docx's default page numbering applies otherwise
 
 ### Conversion Quality
 
