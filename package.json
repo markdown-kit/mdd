@@ -1,6 +1,6 @@
 {
   "name": "@markdownkit/mdd",
-  "version": "2.2.2",
+  "version": "4.0.0",
   "description": "Semantic document layer for the AI-to-Office pipeline. Transform markdown into professional HTML, DOCX, and PDF with preserved document structure.",
   "keywords": [
     "ai-content",

@@ -4,6 +4,8 @@ All notable changes to the MDD (Markdown Document) project.
 
 ## [Unreleased]
 
+## [4.0.0] - 2026-09-16
+
 ### Changed
 
 - **MDD 3 directive syntax.** Block directives are written `:::letterhead` … `:::`, self-closing ones `::page-break` and `::section-break`. The examples, the README and the specification use it. `mdd-convert` reads both spellings.
@@ -162,3 +164,6 @@ All notable changes to the MDD (Markdown Document) project.
 - Stable API
 - Complete documentation
 - Production-ready
+
+[Unreleased]: https://github.com/entro314-labs/mdd/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/entro314-labs/mdd/releases/tag/v4.0.0
