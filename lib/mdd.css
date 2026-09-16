@@ -1,0 +1,297 @@
+/*
+ * MDD print stylesheet: the document styles every MDD renderer shares.
+ * Exported as `@markdownkit/mdd/mdd.css`. Wrap the rendered body in
+ * `.document-container`; directives render as `.letterhead`, `.header`,
+ * `.footer`, `.contactinfo`, `.signature`, `.page-break`, `.section-break`
+ * (see @markdownkit/remark-mdd), semantic classes as written.
+ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 12pt;
+  line-height: 1.6;
+  color: #333;
+  background: #f5f5f5;
+  padding: 2rem;
+}
+.document-container {
+  max-width: 8.5in;
+  margin: 0 auto;
+  background: white;
+  padding: 1in;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 11in;
+}
+.letterhead {
+  text-align: center;
+  border-bottom: 2px solid #333;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+.header {
+  text-align: center;
+  font-size: 10pt;
+  color: #666;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+}
+.footer {
+  text-align: center;
+  font-size: 9pt;
+  color: #666;
+  border-top: 1px solid #ddd;
+  padding-top: 0.5rem;
+  margin-top: 2rem;
+}
+.contactinfo {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin: 1rem 0;
+  font-size: 10pt;
+}
+.signature {
+  margin-top: 3rem;
+  page-break-inside: avoid;
+}
+h1 {
+  font-size: 20pt;
+  margin: 2rem 0 1rem 0;
+  color: #000;
+  text-align: center;
+}
+h2 {
+  font-size: 14pt;
+  margin: 1.5rem 0 0.75rem 0;
+  color: #000;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.25rem;
+}
+h3 {
+  font-size: 12pt;
+  margin: 1rem 0 0.5rem 0;
+  color: #333;
+}
+p {
+  margin: 0.75rem 0;
+  text-align: justify;
+}
+ul,
+ol {
+  margin: 0.75rem 0;
+  padding-left: 2rem;
+}
+li {
+  margin: 0.25rem 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 11pt;
+}
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+th {
+  background: #f5f5f5;
+  font-weight: bold;
+}
+tr:nth-child(even) {
+  background: #fafafa;
+}
+tr:has(strong) {
+  font-weight: bold;
+  background: #f0f0f0;
+}
+blockquote {
+  border-left: 4px solid #ddd;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #666;
+  font-style: italic;
+}
+strong {
+  font-weight: bold;
+  color: #000;
+}
+em {
+  font-style: italic;
+}
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 2rem 0;
+}
+sup,
+sub {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.invoice-title {
+  text-align: center;
+  font-size: 24pt;
+  margin: 1rem 0;
+}
+.contract-title {
+  text-align: center;
+  font-size: 18pt;
+  margin: 2rem 0;
+}
+.legal-notice {
+  background: #fffacd;
+  border: 1px solid #f0e68c;
+  padding: 0.5rem;
+  margin: 1rem 0;
+}
+.numbered-section,
+.document-section {
+  break-inside: avoid;
+}
+.subsection,
+.section-title {
+  font-weight: bold;
+  margin-top: 1rem;
+}
+.long-paragraph {
+  orphans: 3;
+  widows: 3;
+}
+.legal-clause,
+.numbered-item {
+  padding-left: 1.5rem;
+  text-indent: -1.5rem;
+}
+.important,
+.warning,
+.note,
+.example,
+.quote-block {
+  border-left: 4px solid #666;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+}
+.important,
+.warning {
+  background: #fff3cd;
+  border-left-color: #b7791f;
+}
+.note,
+.example {
+  background: #eef6ff;
+  border-left-color: #2b6cb0;
+}
+.emphasis {
+  font-weight: bold;
+}
+.quote-block {
+  color: #555;
+  font-style: italic;
+}
+.signature-line,
+.witness-line,
+.notary-line {
+  display: inline-block;
+  min-width: 16rem;
+  border-bottom: 1px solid #333;
+  padding-top: 2rem;
+}
+.party-name {
+  font-weight: bold;
+}
+.effective-date,
+.expiration-date,
+.date-line {
+  font-variant-numeric: tabular-nums;
+}
+.payment-terms {
+  break-inside: avoid;
+}
+.total-amount,
+.subtotal,
+.tax,
+.total,
+.item-quantity,
+.item-price {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.total-amount,
+.total {
+  font-weight: bold;
+  border-top: 2px solid #333;
+}
+.item-description {
+  text-align: left;
+}
+.footer-note,
+.page-number,
+.copyright-notice {
+  color: #666;
+  font-size: 9pt;
+}
+.confidential-notice {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+}
+.recipient-address,
+.sender-address {
+  white-space: pre-line;
+}
+.subject-line {
+  font-weight: bold;
+}
+.salutation,
+.closing {
+  margin-top: 1.5rem;
+}
+.enclosure,
+.cc-line,
+.reference-number {
+  font-size: 10pt;
+}
+@page {
+  margin: 1in;
+}
+@media print {
+  body {
+    background: white;
+    padding: 0;
+  }
+  .document-container {
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    max-width: none;
+    min-height: 0;
+  }
+  .page-break {
+    page-break-after: always;
+  }
+}

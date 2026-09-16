@@ -110,6 +110,15 @@ MDD solves a critical gap in modern business workflows:
 **Quality improvement:** Consistent professional formatting
 **Workflow integration:** Preserves editability and collaboration capabilities
 
+## The stylesheet
+
+The document styles the preview, the PDF and any other renderer share ship as one file, `@markdownkit/mdd/mdd.css`. Wrap the rendered body in `.document-container`; MDD blocks render as `.letterhead`, `.header`, `.footer`, `.contactinfo`, `.signature`, `.page-break` and `.section-break`, as `@markdownkit/remark-mdd` emits them.
+
+```js
+import { readFileSync } from "node:fs"
+const css = readFileSync(import.meta.resolve("@markdownkit/mdd/mdd.css").slice("file://".length), "utf8")
+```
+
 ## MDD Syntax
 
 MDD extends standard markdown with a few powerful, intuitive directives.

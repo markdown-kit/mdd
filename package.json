@@ -55,7 +55,8 @@
   "exports": {
     "./preview": "./lib/preview-core.js",
     "./convert": "./lib/mdd-convert.js",
-    "./migrate": "./lib/migrate.js"
+    "./migrate": "./lib/migrate.js",
+    "./mdd.css": "./lib/mdd.css"
   },
   "scripts": {
     "preview": "node preview.js",

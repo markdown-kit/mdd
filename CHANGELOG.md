@@ -4,6 +4,10 @@ All notable changes to the MDD (Markdown Document) project.
 
 ## [Unreleased]
 
+### Added
+
+- **The print stylesheet is a file.** `lib/mdd.css` is exported as `@markdownkit/mdd/mdd.css`, so a renderer outside this package (notdocs, a docs site) can ship the same document styles instead of a copy. `MDD_CSS` from `./preview` is that file's text; the preview's own furniture (metadata box, validation report) moved to `PREVIEW_CSS`.
+
 ## [4.0.0] - 2026-09-16
 
 ### Changed
@@ -17,7 +21,6 @@ All notable changes to the MDD (Markdown Document) project.
 ### Deprecated
 
 - The MDD 2 spelling. It is read for this major version with a `LEGACY_DIRECTIVE_SYNTAX` warning from the validator and is removed in the next.
-
 
 ### Fixed
 

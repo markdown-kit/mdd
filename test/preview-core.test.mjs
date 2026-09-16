@@ -101,3 +101,22 @@ document-type: "report"
   assert.match(withReport, /<div class="validation-report">/)
   assert.doesNotMatch(withoutReport, /<div class="validation-report">/)
 })
+
+void test('the stylesheet is a file the package exports, and the preview embeds it', async () => {
+  const { readFileSync } = await import('node:fs')
+  const { fileURLToPath } = await import('node:url')
+  const { MDD_CSS, PREVIEW_CSS } = await import('../lib/preview-core.js')
+  const file = readFileSync(fileURLToPath(import.meta.resolve('@markdownkit/mdd/mdd.css')), 'utf8')
+  assert.equal(MDD_CSS, file)
+  assert.match(MDD_CSS, /\.letterhead \{/)
+  assert.match(MDD_CSS, /@media print/)
+  assert.doesNotMatch(MDD_CSS, /validation-report/)
+  assert.match(PREVIEW_CSS, /validation-report/)
+  const html = await generateMddHtml(
+    '---\ntitle: T\ndocument-type: memo\ndate: 2026-09-16\n---\n\nHi.\n',
+    {
+      validate: false,
+    },
+  )
+  assert.ok(html.includes('.letterhead {') && html.includes('.validation-report {'))
+})
