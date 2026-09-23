@@ -6,6 +6,7 @@ import { join } from 'node:path'
 import test from 'node:test'
 
 import { convertToDocx, convertToHtml, convertToPdf, mddToDocxInput } from '../lib/mdd-convert.js'
+import { generateMddHtml } from '../lib/preview-core.js'
 
 const INVALID = '# Invoice\n\nBody only.\n'
 const VALID = `---
@@ -293,6 +294,23 @@ test('status: review (documented in docs/VALIDATION.md) validates and converts',
     const inReview = VALID.replace('author: "Author"', 'author: "Author"\nstatus: "review"')
     await convertToHtml(inReview, outputPath, { filePath: 'report.mdd' })
     assert.match(await readFile(outputPath, 'utf8'), /<h1/u)
+  } finally {
+    await rm(directory, { recursive: true, force: true })
+  }
+})
+
+test('final HTML output omits the preview metadata box; the preview keeps it', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'mdd-html-'))
+  try {
+    const outputPath = join(directory, 'report.html')
+    await convertToHtml(VALID, outputPath, { filePath: 'report.mdd' })
+    const html = await readFile(outputPath, 'utf8')
+    assert.doesNotMatch(html, /<div class="metadata">/u)
+    assert.doesNotMatch(html, /<dt>Author:<\/dt>/u)
+    assert.match(html, /<title>Report<\/title>/u)
+
+    const preview = await generateMddHtml(VALID, { filePath: 'report.mdd' })
+    assert.match(preview, /<div class="metadata"><dl><dt>Title:<\/dt><dd>Report<\/dd>/u)
   } finally {
     await rm(directory, { recursive: true, force: true })
   }
