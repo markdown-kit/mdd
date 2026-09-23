@@ -15,6 +15,7 @@ All notable changes to the MDD (Markdown Document) project.
 - **DOCX/PDF headers and footers lost literal underscores.** Every `_` and `*` was deleted from `:::header`/`:::footer` text (`INV_2024_001` became `INV2024001`); only paired emphasis, strikethrough and code markers are removed now.
 - **`status: review`, `sent`, `accepted` and `declined` were rejected.** `docs/VALIDATION.md` lists nine status values but the package allowed `@markdownkit/remark-mdd` 4.0.0, which accepts five; it now requires `^4.1.0`.
 - **`mdd-validate --strict` with several files could exit 2 despite errors.** The highest exit code won, so a file with warnings hid another file's errors; the exit code is now 1 when any file has errors, else 2 when strict mode found warnings.
+- **`mdd-migrate` converted CRLF line endings to LF.** Every line of a rewritten file came back with `\n`; each line now keeps its original ending.
 
 ## [4.0.0] - 2026-09-16
 

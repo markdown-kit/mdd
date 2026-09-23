@@ -98,3 +98,15 @@ test('the shipped examples are already MDD 3', () => {
     assert.equal(migrateToMdd3(text).changed, 0, name)
   }
 })
+
+test('keeps each line ending as it was (CRLF, LF, mixed)', () => {
+  for (const [input, expected] of [
+    ['::letterhead\r\nAcme\r\n::\r\n\r\nBody\r\n', ':::letterhead\r\nAcme\r\n:::\r\n\r\nBody\r\n'],
+    ['::page-break\r\n::\r\nNext\r\n', '::page-break\r\nNext\r\n'],
+    ['::letterhead\nAcme\r\n::\n', ':::letterhead\nAcme\r\n:::\n'],
+    ['Body\r\nNo trailing newline', 'Body\r\nNo trailing newline'],
+  ]) {
+    assert.equal(migrateToMdd3(input).content, expected, JSON.stringify(input))
+    assert.equal(migrateToMdd3(expected).content, expected, JSON.stringify(expected))
+  }
+})
