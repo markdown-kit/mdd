@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { existsSync } from 'node:fs'
 import { mkdtemp, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -172,7 +173,9 @@ async function pdfToolingUnavailableReason() {
   }
   try {
     const puppeteer = await import('puppeteer')
-    ;(puppeteer.default ?? puppeteer).executablePath()
+    if (!existsSync(await (puppeteer.default ?? puppeteer).executablePath())) {
+      return 'puppeteer is installed but its Chrome executable is missing'
+    }
   } catch {
     return 'puppeteer with a Chrome installation is not available'
   }

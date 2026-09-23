@@ -8,6 +8,10 @@ All notable changes to the MDD (Markdown Document) project.
 
 - **The print stylesheet is a file.** `lib/mdd.css` is exported as `@markdownkit/mdd/mdd.css`, so a renderer outside this package (notdocs, a docs site) can ship the same document styles instead of a copy. `MDD_CSS` from `./preview` is that file's text; the preview's own furniture (metadata box, validation report) moved to `PREVIEW_CSS`.
 
+### Fixed
+
+- **PDF without an installed Chrome failed with Puppeteer's raw error.** `puppeteer.executablePath()` returns a Promise that was never awaited, so the check never ran; `mdd-convert` now awaits it and checks the executable exists, and reports how to install the browser.
+
 ## [4.0.0] - 2026-09-16
 
 ### Changed
