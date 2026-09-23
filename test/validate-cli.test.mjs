@@ -31,3 +31,22 @@ test('--strict exits 1 when any file has errors, even if a later file only has w
     await rm(directory, { recursive: true, force: true })
   }
 })
+
+test('locations and the directive summary use the MDD 3 spelling', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'mdd-validate-'))
+  try {
+    const file = join(directory, 'letter.mdd')
+    await writeFile(
+      file,
+      '---\ntitle: "L"\ndocument-type: "business-letter"\ndate: "2026-01-01"\n---\n\n:::letterhead\nAcme\n\n::page-break\n\n# Body\n',
+    )
+    // oxlint-disable-next-line no-control-regex -- strips the CLI's ANSI colours
+    const output = validate('--verbose', file).stdout.replace(/\u001B\[[0-9;]*m/gu, '')
+    assert.match(output, /at line 7, directive :::letterhead\n/u)
+    assert.match(output, /at directive :::signature-block\n/u)
+    assert.match(output, /^ {2}:::letterhead ×1$/mu)
+    assert.match(output, /^ {2}::page-break ×1$/mu)
+  } finally {
+    await rm(directory, { recursive: true, force: true })
+  }
+})

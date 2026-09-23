@@ -13,6 +13,8 @@ import { fileURLToPath } from 'node:url'
 
 import { validateDocument } from '@markdownkit/remark-mdd/validator'
 
+import { spellDirective } from './lib/migrate.js'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -56,7 +58,7 @@ function formatMessage(type, code, message, location, suggestion) {
     const parts = []
     if (location.line) parts.push(`line ${location.line}`)
     if (location.column) parts.push(`col ${location.column}`)
-    if (location.directive) parts.push(`directive ::${location.directive}`)
+    if (location.directive) parts.push(`directive ${spellDirective(location.directive)}`)
     if (location.field) parts.push(`field "${location.field}"`)
 
     if (parts.length > 0) {
@@ -131,7 +133,7 @@ function printDirectiveSummary(directiveCounts) {
 
   console.log(`${colors.bright}Directives Found:${colors.reset}`)
   for (const [directive, count] of Object.entries(directiveCounts)) {
-    console.log(`  ::${directive} ${colors.gray}×${count}${colors.reset}`)
+    console.log(`  ${spellDirective(directive)} ${colors.gray}×${count}${colors.reset}`)
   }
   console.log('')
 }

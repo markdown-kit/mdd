@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 
-import { extractMetadata, generateMddHtml, processContent } from '../lib/preview-core.js'
+import {
+  extractMetadata,
+  generateMddHtml,
+  generateValidationReport,
+  processContent,
+} from '../lib/preview-core.js'
 
 void test('processContent renders MDD structure when given an mdd file path', async () => {
   const html = await processContent(
@@ -119,4 +124,13 @@ void test('the stylesheet is a file the package exports, and the preview embeds 
     },
   )
   assert.ok(html.includes('.letterhead {') && html.includes('.validation-report {'))
+})
+
+void test('generateValidationReport spells directive locations in MDD 3', () => {
+  const html = generateValidationReport({
+    errors: [{ code: 'A', message: 'a', location: { line: 3, directive: 'letterhead' } }],
+    warnings: [{ code: 'B', message: 'b', location: { directive: 'page-break' } }],
+  })
+  assert.match(html, /<em>\(line 3, directive :::letterhead\)<\/em>/u)
+  assert.match(html, /<em>\(directive ::page-break\)<\/em>/u)
 })

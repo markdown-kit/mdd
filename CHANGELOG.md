@@ -17,6 +17,7 @@ All notable changes to the MDD (Markdown Document) project.
 - **`mdd-validate --strict` with several files could exit 2 despite errors.** The highest exit code won, so a file with warnings hid another file's errors; the exit code is now 1 when any file has errors, else 2 when strict mode found warnings.
 - **`mdd-migrate` converted CRLF line endings to LF.** Every line of a rewritten file came back with `\n`; each line now keeps its original ending.
 - **`mdd-convert` HTML and PDF still printed the preview's metadata box** (Title/Date/Author/Type). `generateMddHtml` takes `metadata: false`, which `mdd-convert` passes; `mdd-preview` keeps the box.
+- **Validation locations used the MDD 2 spelling.** `mdd-validate` and the preview's validation report printed `directive ::header`; they now print `:::header` for blocks and `::page-break` / `::section-break` for self-closing directives, matching remark-mdd's messages (also in the `--verbose` directive summary).
 
 ## [4.0.0] - 2026-09-16
 
