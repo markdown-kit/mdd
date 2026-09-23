@@ -285,3 +285,15 @@ test('DOCX/PDF header text drops paired emphasis and code markers but keeps lite
     assert.equal(header, expected, input)
   }
 })
+
+test('status: review (documented in docs/VALIDATION.md) validates and converts', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'mdd-status-'))
+  try {
+    const outputPath = join(directory, 'report.html')
+    const inReview = VALID.replace('author: "Author"', 'author: "Author"\nstatus: "review"')
+    await convertToHtml(inReview, outputPath, { filePath: 'report.mdd' })
+    assert.match(await readFile(outputPath, 'utf8'), /<h1/u)
+  } finally {
+    await rm(directory, { recursive: true, force: true })
+  }
+})
