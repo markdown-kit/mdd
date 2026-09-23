@@ -12,6 +12,7 @@ All notable changes to the MDD (Markdown Document) project.
 
 - **PDF without an installed Chrome failed with Puppeteer's raw error.** `puppeteer.executablePath()` returns a Promise that was never awaited, so the check never ran; `mdd-convert` now awaits it and checks the executable exists, and reports how to install the browser.
 - **DOCX rewrote `~` and `^` inside code and URLs.** The `^sup^`/`~sub~` conversion ran on raw lines, so `` `ls ~a~` `` and links such as `https://example.com/~user/~x` came out with `<sub>` runs and broken targets; inline code spans, link/image destinations, autolinks and bare URLs are now copied verbatim.
+- **DOCX/PDF headers and footers lost literal underscores.** Every `_` and `*` was deleted from `:::header`/`:::footer` text (`INV_2024_001` became `INV2024001`); only paired emphasis, strikethrough and code markers are removed now.
 
 ## [4.0.0] - 2026-09-16
 

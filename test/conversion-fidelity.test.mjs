@@ -271,3 +271,17 @@ test('DOCX typography leaves inline code, link destinations and autolinks alone'
     assert.equal(mddToDocxInput(input).markdown, `${expected}\n`, input)
   }
 })
+
+test('DOCX/PDF header text drops paired emphasis and code markers but keeps literal ones', () => {
+  for (const [input, expected] of [
+    ['Ref INV_2024_001', 'Ref INV_2024_001'],
+    ['**Bold** and __strong__', 'Bold and strong'],
+    ['*it* and _em_', 'it and em'],
+    ['~~old~~ and `code`', 'old and code'],
+    ['snake_case_name | 5 * 3 = 15', 'snake_case_name | 5 * 3 = 15'],
+    ['[site](https://example.com/a_b_c)', 'site (https://example.com/a_b_c)'],
+  ]) {
+    const { header } = mddToDocxInput(`:::header\n${input}\n:::\n`)
+    assert.equal(header, expected, input)
+  }
+})
