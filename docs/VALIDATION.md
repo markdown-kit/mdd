@@ -157,16 +157,16 @@ ERRORS (2):
   💡 Add "invoice-number: value" to your frontmatter
 
 ✗ ERROR [MISSING_END_MARKER]
-  Directive ::letterhead at line 8 is missing end marker ::
-  at line 8, directive ::letterhead
-  💡 Add :: on its own line after the letterhead content
+  Directive :::letterhead at line 8 is missing end marker :::
+  at line 8, directive :::letterhead
+  💡 Add ::: on its own line after the letterhead content
 
 WARNINGS (1):
 
 ⚠ WARNING [EMPTY_DIRECTIVE]
-  Directive ::footer at line 42 is empty
-  at line 42, directive ::footer
-  💡 Add content inside the ::footer block or remove it
+  Directive :::footer at line 42 is empty
+  at line 42, directive :::footer
+  💡 Add content inside the :::footer block or remove it
 ```
 
 #### JSON output
