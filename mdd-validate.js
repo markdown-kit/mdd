@@ -374,7 +374,8 @@ async function main() {
     const result = await validateFile(filePath, options)
     results.push(result)
 
-    if (result.exitCode > globalExitCode) {
+    // Errors (1) outrank strict-mode warnings (2), whatever the file order.
+    if (result.exitCode === 1 || (result.exitCode === 2 && globalExitCode === 0)) {
       globalExitCode = result.exitCode
     }
   }
