@@ -254,3 +254,20 @@ test('final HTML output carries the document only, not the preview validation re
     await rm(directory, { recursive: true, force: true })
   }
 })
+
+test('DOCX typography leaves inline code, link destinations and autolinks alone', () => {
+  for (const [input, expected] of [
+    [
+      'See [home](https://example.com/~user/~x) for details.',
+      'See [home](https://example.com/~user/~x) for details.',
+    ],
+    ['Run `ls ~a~ b^c^` now.', 'Run `ls ~a~ b^c^` now.'],
+    ['Run ``echo `~a~` ok`` now.', 'Run ``echo `~a~` ok`` now.'],
+    ['Visit <https://example.com/~a~b>.', 'Visit <https://example.com/~a~b>.'],
+    ['Visit https://example.com/~a/~b today.', 'Visit https://example.com/~a/~b today.'],
+    ['![H~2~O](img/~a~.png)', '![H<sub>2</sub>O](img/~a~.png)'],
+    ['H~2~O, `x^2^` and 2^nd^', 'H<sub>2</sub>O, `x^2^` and 2<sup>nd</sup>'],
+  ]) {
+    assert.equal(mddToDocxInput(input).markdown, `${expected}\n`, input)
+  }
+})
