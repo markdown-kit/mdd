@@ -1,0 +1,25 @@
+# MDD
+
+> MDD (Markdown Document) is GitHub-flavored markdown plus five named blocks (letterhead, header, footer, contact-info, signature-block) and two breaks (page-break, section-break) that describe the parts of a business document. `@markdownkit/mdd` validates `.mdd` files and converts them to HTML, PDF and DOCX with no styling or templates.
+
+Use `.mdd` for letters, invoices, quotes, proposals, contracts, agreements, memos and reports: documents that would otherwise be written in Word. Use `.md` for READMEs, notes and technical docs, `.mdx` for docs with components.
+
+Workflow: write the file, run `mdd-validate --strict`, fix what it reports, then `mdd-convert --format docx|pdf|html`.
+
+## Authoring
+
+- [Authoring skill](skills/mdd/SKILL.md): the complete syntax reference on one page (frontmatter fields per document type, blocks, inline syntax, validator codes) with a skeleton that passes strict validation. Load this to write an `.mdd` file.
+- [Specification](SPECIFICATION.md): the format's purpose, grammar and conversion pipeline.
+- [Validation guide](docs/VALIDATION.md): CLI options, exit codes, JSON output and error codes.
+
+## Examples
+
+- [Business letter](https://github.com/entro314-labs/mdd/blob/main/examples/business-letter.mdd)
+- [Invoice](https://github.com/entro314-labs/mdd/blob/main/examples/invoice.mdd)
+- [Contract with technical content](https://github.com/entro314-labs/mdd/blob/main/examples/comprehensive-document.mdd)
+
+## Tooling
+
+- [README](README.md): installation, CLI usage, the print stylesheet export and the markdownkit ecosystem.
+- [JSON Schema](https://github.com/entro314-labs/remark-mdd/blob/main/schema/mdd-document.schema.json): frontmatter fields, document types and semantic classes, from `@markdownkit/remark-mdd`.
+- [Per-type requirements](https://github.com/entro314-labs/remark-mdd/blob/main/schema/document-type-requirements.json): required and recommended fields and blocks for each document type.

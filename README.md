@@ -110,6 +110,10 @@ MDD solves a critical gap in modern business workflows:
 **Quality improvement:** Consistent professional formatting
 **Workflow integration:** Preserves editability and collaboration capabilities
 
+### For agents
+
+The package ships `skills/mdd/SKILL.md`, a one-page authoring reference (frontmatter per document type, blocks, inline syntax, validator codes) with a skeleton that passes `mdd-validate --strict`. Copy or symlink `node_modules/@markdownkit/mdd/skills/mdd` into your agent's skills directory (`.claude/skills/mdd` for Claude Code) and the agent writes valid `.mdd` without being told the syntax. `llms.txt` at the package root indexes that file, the specification and the schemas.
+
 ## The stylesheet
 
 The document styles the preview, the PDF and any other renderer share ship as one file, `@markdownkit/mdd/mdd.css`. Wrap the rendered body in `.document-container`; MDD blocks render as `.letterhead`, `.header`, `.footer`, `.contactinfo`, `.signature`, `.page-break` and `.section-break`, as `@markdownkit/remark-mdd` emits them.

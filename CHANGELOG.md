@@ -6,6 +6,7 @@ All notable changes to the MDD (Markdown Document) project.
 
 ### Added
 
+- **Agents can load the format.** `skills/mdd/SKILL.md` is a one-page authoring skill (frontmatter per document type, blocks, inline syntax, validator codes, a skeleton that passes `mdd-validate --strict`) and `llms.txt` indexes it with the specification and schemas. Both ship in the npm package, so an agent with the package installed writes valid `.mdd` without the syntax being pasted into its prompt.
 - **The print stylesheet is a file.** `lib/mdd.css` is exported as `@markdownkit/mdd/mdd.css`, so a renderer outside this package (notdocs, a docs site) can ship the same document styles instead of a copy. `MDD_CSS` from `./preview` is that file's text; the preview's own furniture (metadata box, validation report) moved to `PREVIEW_CSS`.
 
 ### Fixed
