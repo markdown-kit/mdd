@@ -112,7 +112,14 @@ MDD solves a critical gap in modern business workflows:
 
 ### For agents
 
-The package ships `skills/mdd/SKILL.md`, a one-page authoring reference (frontmatter per document type, blocks, inline syntax, validator codes) with a skeleton that passes `mdd-validate --strict`. Copy or symlink `node_modules/@markdownkit/mdd/skills/mdd` into your agent's skills directory (`.claude/skills/mdd` for Claude Code) and the agent writes valid `.mdd` without being told the syntax. `llms.txt` at the package root indexes that file, the specification and the schemas.
+The package ships `skills/mdd/SKILL.md`, a one-page authoring reference (frontmatter per document type, blocks, inline syntax, validator codes) with a skeleton that passes `mdd-validate --strict`, and `llms.txt` indexes it with the specification and schemas. Install the skill into the agent directories of a project with the [skills CLI](https://skills.sh):
+
+```bash
+npx skills sync -y                   # from the installed @markdownkit/mdd
+npx skills add entro314-labs/mdd     # from GitHub, no install needed
+```
+
+The agent then writes valid `.mdd` without the syntax being pasted into its prompt.
 
 ## The stylesheet
 

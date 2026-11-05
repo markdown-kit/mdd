@@ -14,9 +14,9 @@ Workflow: write the file, run `mdd-validate --strict`, fix what it reports, then
 
 ## Examples
 
-- [Business letter](https://github.com/entro314-labs/mdd/blob/main/examples/business-letter.mdd)
-- [Invoice](https://github.com/entro314-labs/mdd/blob/main/examples/invoice.mdd)
-- [Contract with technical content](https://github.com/entro314-labs/mdd/blob/main/examples/comprehensive-document.mdd)
+- [Business letter](examples/business-letter.mdd)
+- [Invoice](examples/invoice.mdd)
+- [Contract with technical content](examples/comprehensive-document.mdd)
 
 ## Tooling
 

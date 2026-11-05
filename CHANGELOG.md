@@ -6,11 +6,12 @@ All notable changes to the MDD (Markdown Document) project.
 
 ### Added
 
-- **Agents can load the format.** `skills/mdd/SKILL.md` is a one-page authoring skill (frontmatter per document type, blocks, inline syntax, validator codes, a skeleton that passes `mdd-validate --strict`) and `llms.txt` indexes it with the specification and schemas. Both ship in the npm package, so an agent with the package installed writes valid `.mdd` without the syntax being pasted into its prompt.
+- **Agents can load the format.** `skills/mdd/SKILL.md` is a one-page authoring skill (frontmatter per document type, blocks, inline syntax, validator codes, a skeleton that passes `mdd-validate --strict`) and `llms.txt` indexes it with the specification and schemas. Both ship in the npm package, so an agent with the package installed writes valid `.mdd` without the syntax being pasted into its prompt. `npx skills sync` links the skill into a project's agent directories from the installed package. The example `.mdd` files now ship in the package too.
 - **The print stylesheet is a file.** `lib/mdd.css` is exported as `@markdownkit/mdd/mdd.css`, so a renderer outside this package (notdocs, a docs site) can ship the same document styles instead of a copy. `MDD_CSS` from `./preview` is that file's text; the preview's own furniture (metadata box, validation report) moved to `PREVIEW_CSS`.
 
 ### Fixed
 
+- **`docs/VALIDATION.md` showed the MDD 2 spelling** (`::letterhead` … `::`, `::page-break ::`) and left `emphasis` out of the semantic class list; it now matches the MDD 3 grammar and the schema.
 - **PDF without an installed Chrome failed with Puppeteer's raw error.** `puppeteer.executablePath()` returns a Promise that was never awaited, so the check never ran; `mdd-convert` now awaits it and checks the executable exists, and reports how to install the browser.
 - **DOCX rewrote `~` and `^` inside code and URLs.** The `^sup^`/`~sub~` conversion ran on raw lines, so `` `ls ~a~` `` and links such as `https://example.com/~user/~x` came out with `<sub>` runs and broken targets; inline code spans, link/image destinations, autolinks and bare URLs are now copied verbatim.
 - **DOCX/PDF headers and footers lost literal underscores.** Every `_` and `*` was deleted from `:::header`/`:::footer` text (`INV_2024_001` became `INV2024001`); only paired emphasis, strikethrough and code markers are removed now.

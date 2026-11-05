@@ -65,9 +65,9 @@ date: 2024-12-15
 
 # My Document
 
-::letterhead
+:::letterhead
 Company Name
-::
+:::
 `;
 
 const result = validateDocument(content, {
@@ -291,16 +291,16 @@ judgment, decree, other
 All block directives MUST have end markers:
 
 ```markdown
-::letterhead
+:::letterhead
 Content here
-::  <!-- Required -->
+:::  <!-- Required -->
 ```
 
 Self-closing directives do not need end markers:
 
 ```markdown
-::page-break ::
-::: section-break :::
+::page-break
+::section-break
 ```
 
 #### Empty Directive Detection
@@ -308,8 +308,8 @@ Self-closing directives do not need end markers:
 Empty directives produce warnings:
 
 ```markdown
-::letterhead
-::  <!-- Warning: empty directive -->
+:::letterhead
+:::  <!-- Warning: empty directive -->
 ```
 
 #### Nesting Rules
@@ -317,11 +317,11 @@ Empty directives produce warnings:
 Directives cannot be nested (current limitation):
 
 ```markdown
-::letterhead
-  ::header  <!-- Error: invalid nesting -->
+:::letterhead
+  :::header  <!-- Error: invalid nesting -->
   Content
-  ::
-::
+  :::
+:::
 ```
 
 ### Document Type Requirements
@@ -333,36 +333,36 @@ Each document type has specific required and recommended elements.
 **Required:**
 
 - Frontmatter: `title`, `date`, `document-type`, `invoice-number`
-- Directives: `::letterhead`, `::header`
+- Directives: `:::letterhead`, `:::header`
 
 **Recommended:**
 
 - Frontmatter: `author`, `recipient`, `payment-terms`, `due-date`, `total-amount`, `purchase-order`
-- Directives: `::footer`, `::contact-info`
+- Directives: `:::footer`, `:::contact-info`
 
 #### Contract/Agreement Requirements
 
 **Required:**
 
 - Frontmatter: `title`, `date`, `document-type`, `parties`, `effective-date`
-- Directives: `::letterhead`, `::signature-block`
+- Directives: `:::letterhead`, `:::signature-block`
 
 **Recommended:**
 
 - Frontmatter: `jurisdiction`, `expiration-date`, `reference-number`
-- Directives: `::header`, `::footer`
+- Directives: `:::header`, `:::footer`
 
 #### Business Letter Requirements
 
 **Required:**
 
 - Frontmatter: `title`, `date`, `document-type`
-- Directives: `::letterhead`, `::signature-block`
+- Directives: `:::letterhead`, `:::signature-block`
 
 **Recommended:**
 
 - Frontmatter: `author`, `recipient`, `subject`
-- Directives: `::contact-info`
+- Directives: `:::contact-info`
 
 See `@markdownkit/remark-mdd/schema/requirements` for complete requirements.
 
@@ -375,7 +375,7 @@ Only whitelisted CSS classes are allowed in `{.class-name}` annotations.
 ```
 invoice-title, contract-title, legal-notice, numbered-section,
 long-paragraph, legal-clause, numbered-item, document-section,
-subsection, section-title, important, warning, note, example,
+subsection, section-title, important, emphasis, warning, note, example,
 quote-block, signature-line, witness-line, notary-line, party-name,
 effective-date, expiration-date, payment-terms, total-amount,
 item-description, item-quantity, item-price, subtotal, tax, total,
@@ -694,17 +694,17 @@ date: 2024-12-15  # ✓ Correct
 **Problem:** Directive not closed
 
 ```markdown
-::letterhead
+:::letterhead
 Content
-<!-- Missing :: here -->
+<!-- Missing ::: here -->
 ```
 
 **Solution:** Add end marker
 
 ```markdown
-::letterhead
+:::letterhead
 Content
-::  <!-- ✓ Correct -->
+:::  <!-- ✓ Correct -->
 ```
 
 #### "Unknown semantic class"
