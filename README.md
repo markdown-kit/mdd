@@ -194,7 +194,7 @@ Cross-reference: See @table-1 and @figure-3 for details.
 
 ## Project Structure
 
-```
+```tree
 mdd/
 ├── plugins/                    # Remark plugins for semantic processing
 │   ├── remark-mdd-document-structure.js

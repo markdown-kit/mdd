@@ -25,7 +25,7 @@ pnpm run preview examples/business-letter.mdd
 
 ## Project Structure
 
-```
+```tree
 mdd/
 ├── examples/          # .mdd example documents
 ├── docs/              # Documentation

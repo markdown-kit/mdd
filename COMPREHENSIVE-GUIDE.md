@@ -51,20 +51,14 @@ MDD's core innovation is semantic structure preservation across formats.
 
 ### Processing Pipeline
 
-```
-Input: .mdd file
-  ↓
-1. remark-frontmatter: Parse YAML metadata
-  ↓
-2. remark-gfm: Handle tables, strikethrough, etc.
-  ↓
-3. remark-mdd-document-structure: Convert ::directives
-  ↓
-4. remark-mdd-text-formatting: Handle ^super^, ~sub~, @refs
-  ↓
-5. remark-html: Generate HTML (sanitize: false)
-  ↓
-Output: HTML with LaTeX-style markup
+```mermaid
+flowchart TD
+    A[".mdd file"] --> B["1. remark-frontmatter: Parse YAML metadata"]
+    B --> C["2. remark-gfm: Handle tables, strikethrough, etc."]
+    C --> D["3. remark-mdd-document-structure: Convert ::directives"]
+    D --> E["4. remark-mdd-text-formatting: Handle ^super^, ~sub~, @refs"]
+    E --> F["5. remark-html: Generate HTML (sanitize: false)"]
+    F --> G["Output: HTML with LaTeX-style markup"]
 ```
 
 **Post-processing** (in preview\.js):
@@ -75,7 +69,7 @@ Output: HTML with LaTeX-style markup
 
 ## File Structure
 
-```
+```tree
 mdd/
 ├── examples/                          # Example .mdd documents
 │   ├── business-letter.mdd
